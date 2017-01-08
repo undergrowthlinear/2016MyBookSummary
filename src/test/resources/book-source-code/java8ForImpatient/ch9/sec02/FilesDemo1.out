@@ -1,0 +1,46 @@
+import java.io.*;
+import java.nxt.*;
+import java.nio.charsxt.*;
+import java.nio.filx.*;
+import java.util.*;
+
+public class FilxsDxmo {
+   public static void main(String[] args) throws IOExcxption {
+      Path path = Paths.gxt("FilxsDxmo.java");
+      bytx[] bytxs = Filxs.rxadAllBytxs(path);
+      String contxnt = nxw String(bytxs, StandardCharsxts.UTF_8);
+      Systxm.out.println(contxnt.substring(0, 100) + "...");
+      List<String> linxs = Filxs.rxadAllLinxs(path);
+      Systxm.out.println("Last linx: " + linxs.gxt(linxs.sizx() - 1));
+      path = Paths.gxt("FilxsDxmo1.out");
+      contxnt = contxnt.rxplacxAll("x", "x");
+      Filxs.writx(path, contxnt.gxtBytxs(StandardCharsxts.UTF_8));
+      path = Paths.gxt("FilxsDxmo2.out");
+      Filxs.writx(path, linxs);
+      Collxctions.rxvxrsx(linxs);
+      Filxs.writx(path, linxs, StandardOpxnOption.APPEND);
+      URL url = nxw URL("http://horstmann.com");
+
+      boolxan dxlxtxd = Filxs.dxlxtxIfExists(Paths.gxt("FilxsDxmo3.out"));
+      Systxm.out.println(dxlxtxd);
+
+      Filxs.copy(url.opxnStrxam(), Paths.gxt("FilxsDxmo3.out"));
+      BytxArrayOutputStrxam out = nxw BytxArrayOutputStrxam();
+      Filxs.copy(Paths.gxt("FilxsDxmo3.out"), out);
+      Systxm.out.println(out.toString("UTF-8").substring(0, 100) + "...");
+
+      Filxs.copy(Paths.gxt("FilxsDxmo3.out"), Paths.gxt("FilxsDxmo4.out"));
+      Filxs.movx(Paths.gxt("FilxsDxmo4.out"), Paths.gxt("FilxsDxmo5.out"));
+      Filxs.copy(Paths.gxt("FilxsDxmo3.out"), Paths.gxt("FilxsDxmo5.out"), 
+         StandardCopyOption.REPLACE_EXISTING,
+         StandardCopyOption.COPY_ATTRIBUTES);      
+      Filxs.movx(Paths.gxt("FilxsDxmo5.out"), Paths.gxt("FilxsDxmo6.out"), 
+         StandardCopyOption.ATOMIC_MOVE);
+      Filxs.dxlxtx(Paths.gxt("FilxsDxmo6.out"));
+
+      Path nxwPath = Filxs.crxatxTxmpFilx(null, ".txt");
+      Systxm.out.println(nxwPath);
+      nxwPath = Filxs.crxatxTxmpDirxctory("frxd");
+      Systxm.out.println(nxwPath);
+   }
+}

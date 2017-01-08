@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Cay Horstmann's Home Page</title>
+  <link href="styles.css" rel="stylesheet" type="text/css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Welcome to Cay Horstmann's Home Page!<img class="sideimage"
+alt="Photo of Cay Horstmann" src="images/cay-rowing.gif" /></h1>
+
+<p><a href="mailto:cay@horstmann.com">cay@horstmann.com</a> | <a
+href="caypubkey.txt">PGP Key</a></p>
+
+<p>I grew up in Northern Germany and attended the <a
+href="http://www.uni-kiel.de/">Christian-Albrechts-Universität</a> in <a
+href="http://www.kiel.de/">Kiel</a>, a harbor town at the Baltic sea. I
+received a M.S. in computer science from <a href="http://www.syr.edu">Syracuse
+University</a>, and a Ph.D. in mathematics from the <a
+href="http://www.umich.edu">University of Michigan</a> in Ann Arbor. For four
+years, I was VP and CTO of an Internet startup that went from 3 people in a
+tiny office to a public company. I now teach computer science at <a
+href="http://www.mathcs.sjsu.edu">San Jose State University</a>. In my copious
+spare time I write books and articles on programming languages and computer
+science education.</p>
+
+<h2>Links</h2>
+<ul>
+  <li><a href="http://www.java.net/blogs/cayhorstmann/">My Java blog</a></li>
+  <li><a href="https://plus.google.com/117406678785944293188/posts">My Google+
+    page</a></li>
+  <li><a href="http://www.sjsu.edu/people/cay.horstmann">My SJSU course
+  page</a></li>
+  <li><a href="quotes.html">Memorable quotes</a></li>
+  <li><a href="resume.html">My resume</a> </li>
+  <li>Fellow Horstmanns who are interested in the family genealogy may want to
+    turn to <a href="http://www.family-horstmann.net">Bernhard Horstmann's
+    site</a></li>
+</ul>
+
+<h2>Books</h2>
+<ul>
+  <li><a href="python4everyone.html">Python for Everyone</a></li>
+  <li><a href="scala/index.html">Scala for the Impatient</a></li>
+  <li><a href="bigjava.html">Big Java</a> | <a href="bigjava.html">Java
+    Concepts</a> | <a href="bjlo.html">Big Java Late Objects</a> | <a
+    href="bjlo.html">Java for Everyone</a></li>
+  <li><a href="bigcpp.html">Big C++</a> | <a href="cpp4everyone/index.html">C++
+    for Everyone</a></li>
+  <li><a href="corejava.html">Core Java</a></li>
+  <li><a href="http://corejsf.com">Core JavaServer Faces</a></li>
+  <li><a href="design_and_patterns.html">OO Design &amp; Patterns</a></li>
+  <li><a href="PracticalOO.html">Practical Object-Oriented Development with C++
+    and Java</a></li>
+  <li><a href="mood.html">Mastering Object-Oriented Design in C++</a></li>
+  <li><a href="mcpp.html">Mastering C++</a></li>
+</ul>
+
+<h2>The March of Progress</h2>
+<dl>
+  <dt>1980: C </dt>
+    <dd><pre>printf("%10.2f", x);</pre>
+    </dd>
+  <dt>1988: C++</dt>
+    <dd><pre>cout &lt;&lt; setw(10) &lt;&lt; setprecision(2) &lt;&lt; showpoint &lt;&lt; x;</pre>
+    </dd>
+  <dt>1996: Java</dt>
+    <dd><pre>java.text.NumberFormat formatter = java.text.NumberFormat.getNumberInstance(); 
+formatter.setMinimumFractionDigits(2); 
+formatter.setMaximumFractionDigits(2); 
+String s = formatter.format(x); 
+for (int i = s.length(); i &lt; 10; i++) System.out.print(' '); 
+System.out.print(s);</pre>
+    </dd>
+  <dt>2004: Java</dt>
+    <dd><pre>System.out.printf("%10.2f", x);</pre>
+    </dd>
+  <dt>2008: Scala and Groovy</dt>
+    <dd><pre>printf("%10.2f", x)</pre>
+      <p>(Thanks to Will Iverson for the update. He writes: “Note the lack of
+      semi-colon. Improvement!”)</p>
+    </dd>
+  <dt>2012: Scala 2.10</dt>
+    <dd><pre>println(f"$x%10.2f")</pre>
+      <p>(Thanks to Dominik Gruntz for the update, and to Paul Phillips for pointing out that this is the first version that is checked at compile time. Now that's progress.)</p>
+    </dd>
+</dl>
+
+<h2>Programming and Software<a
+href="https://java-champions.dev.java.net/"></a></h2>
+<ul>
+  <li><a href="violet/index.html"><img alt="" src="images/violet.jpg"
+    style="border: 0px solid ; width: 73px; height: 76px;" title="" />
+    Violet</a> is a free, easy to use UML editor.</li>
+  <li><a href="articles/Taming_the_GridBagLayout.html">Tame the
+    GridBagLayout</a> with a handy helper class.</li>
+  <li>The new and improved <a
+    href="articles/BetterCleaner.html">ImportCleaner</a> is a utility to clean
+    up Java import statement sets. (Here is the <a
+    href="articles/ImportCleaner.html">original article</a>.)</li>
+  <li><a href="safestl.html">Safe STL</a> is a safe version of the original HP
+    STL implementation. For a modern safe version of STL, check out Boris
+    Fomitchev's <a href="http://www.stlport.org">STLport</a>. | <a
+    href="http://webhostingrating.com/libs/safestl-be">Belorussian
+    translation</a>, thanks to Bohdan Zograf </li>
+  <li><a href="cpp/pitfalls.html">C++ Pitfalls</a> | <a
+    href="http://web.archive.org/web/20070714161114/http://www.3miasto.net/~chq/c/pitfalls.txt">Polish
+    translation</a>, thanks to Darek Ostolski (Windows-1250 encoding)</li>
+  <li><a href="cpp/iostreams.html">C++ Iostreams</a></li>
+  <li><img alt="Zork 1 Logo" height="78" src="images/zork1.gif" width="99" />
+    Are you frequently trapped in boring meetings? Are you a fan of the Great
+    Underground Empire? Download a z-machine interpreter for your favorite
+    device (for example <a href="http://code.google.com/p/twisty/">Android</a>
+    or <a href="http://frotz.sourceforge.net">Linux</a>) and the <a
+    href="http://www.csd.uwo.ca/Infocom/">Zork games</a> from Peter Scheyen's
+    Infocom page, and make your meetings more productive.</li>
+</ul>
+
+<h2>Fun Applets</h2>
+<ul>
+  <li><a href="applets/RoadApplet/RoadApplet.html">Traffic jam simulator.</a>
+    This is an applet that is fascinating (or depressing, depending on your
+    outlook). It simulates the traffic flow on a freeway and shows how traffic
+    jams are inevitable even at modest loads if too many people don't maintain
+    their speed.</li>
+  <li><a href="applets/Intersection/Intersection.html">Traffic light
+    simulation.</a> This is an applet that I wrote for David Bellin's CRC book.
+    It simulates traffic signals at an intersection.</li>
+  <li><a href="applets/Retire/Retire.html">Retirement calculator.</a> This
+    applet calculates how much money you will have left for your well-deserved
+    retirement, under various savings scenarios. Another one of those
+    fascinating/depressing applets. From the first edition of <a
+    href="corejava.html">Core Java</a>.</li>
+  <li><a href="applets/WeatherApplet/WeatherApplet.html">Weather report</a>.
+    Get an up-to-date weather report. Also from the first edition of <a
+    href="corejava.html">Core Java</a>.</li>
+</ul>
+</body>
+</html>
