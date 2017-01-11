@@ -49,7 +49,7 @@ see----ReentrantLockTest/ReentrantReadWriteLockTest
 显示锁提供了一些扩展的功能,例如可定时/可中断/可轮询,性能方面差别不大,与内置锁具有相同的互斥性/内存可见性/可重入
 读写锁允许多个读线程并发的访问被保护的数据,当以读操作为主的数据结构时,可提升性能
 **
-8. 示例代码
+8. 示例代码位于-- https://github.com/undergrowthlinear/2016MyBookSummary.git
 **
 关于多线程情况下交替访问会导致竞态条件的代码示例在com.undergrowth.java.concurrency.practice.test.ConcurrencyProfile中
    关于CountDownLatch在com.undergrowth.java.concurrency.practice.test.SynchronizedToolTest.countDownLatchTest有示例演示
