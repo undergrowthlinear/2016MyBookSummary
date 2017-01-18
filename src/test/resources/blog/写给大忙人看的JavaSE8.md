@@ -24,3 +24,4 @@
 8. 示例代码位于-- https://github.com/undergrowthlinear/2016MyBookSummary.git
    * com.undergrowth.java8.forimpatient.test.LambdaLearnTest关于lambda函数式接口、方法引用、默认方法
    javafx示例
+   * 在src\test\resources\book-source-code\java8ForImpatient路径下，有本书作者的完整实例
