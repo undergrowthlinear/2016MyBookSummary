@@ -1,0 +1,1 @@
+工具类包括FileUtils、IOUtils、FilenameUtils和FileSystemUtils，前三者的方法并没有多大的区别，只是操作的对象不同，故名思议：FileUtils主要操作File类，IOUtils主要操作IO流，FilenameUtils则是操作文件名，FileSystemUtils包含了一些JDK没有提供的用于访问文件系统的实用方法。当前，只有一个用于读取硬盘空余空间的方法可用。实例如下
