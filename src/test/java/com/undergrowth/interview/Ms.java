@@ -2,7 +2,10 @@ package com.undergrowth.interview;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author zhangwu
@@ -112,6 +115,24 @@ public class Ms {
     @Test
     public void stackTest(){
         Stack stack=new Stack();
+    }
+
+    @Test
+    public void splitTest(){
+        String str = "a,b,c,,"; String[] ary = str.split(",");
+        System.out.println(ary.length);
+    }
+
+    @Test
+    public void arrayTest(){
+        String[] str = new String[] { "a", "b" };
+        List list = Arrays.asList(str);
+        list.add("c");
+    }
+
+    @Test
+    public void threadPoolTest(){
+        //ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor();
     }
 
 
