@@ -168,6 +168,11 @@
       <artifactId>commons-text</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.3</version>
+    </dependency>
     <!--google -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
