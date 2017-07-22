@@ -1,0 +1,35 @@
+# apache-comnons系列之commons-collections4 org.apache.commons.collections4.CollectionUtils学习笔记
+## 概述
+-   Collection、List、Set、Map关系图学习笔记1(4/4/3/4)
+    - http://blog.csdn.net/undergrowth/article/details/44066917#comments
+    - http://blog.csdn.net/undergrowth/article/details/46518929
+- CollectionUtils
+  - ListUtils
+  - SetUtils
+  - QueueUtils
+- MapUtils
+- BagUtils
+- Bag
+  - Defines a collection that counts the number of times an object appears in the collection.
+- Transformer
+  - Defines a functor interface implemented by classes that transform one object into another.
+- Predicate
+  - Defines a functor interface implemented by classes that perform a predicate test on an object.
+## 测试
+- org.apache.commons.collections4.CollectionUtilsTest
+  - getCardinalityMap
+      - Returns a {@link Map} mapping each unique element in the given {@link Collection} to an {@link Integer} representing the number of occurrences of that element in the {@link Collection}.
+  - containsAll
+      - Returns <code>true</code> iff all elements of {@code coll2} are also contained in {@code coll1}. The cardinality of values in {@code coll2} is not taken into account,which is the same behavior as {@link Collection#containsAll(Collection)}.
+  - union/intersection/subtract
+  - transform
+      - Transform the collection by applying a Transformer to each element
+    - This routine is best for Lists, for which set() is used to do the transformations "in place." For other Collections, clear() and addAll() are used to replace elements.
+  - collect
+      - Returns a new Collection containing all elements of the input collection transformed by the given transformer.
+  - select
+      - Selects all elements from input collection which match the given predicate into an output collection.
+  - filter
+      - Filter the collection by applying a Predicate to each element. If the predicate returns false, remove the element.
+  - collate
+      - merges two sorted Collections, a and b, into a single, sorted List such that the natural ordering of the elements is retained.

@@ -38,3 +38,12 @@
     * contentEquals
         * This method checks to see if the two files are different lengths or if they point to the same file, before resorting to byte-by-byte comparison of the contents.
         * IOUtils.contentEquals(input1, input2)
+## FilenameUtils
+* This class defines six components within a filename
+ * (example C:\dev\project\file.txt):
+ * the prefix - C:\
+ * the path - dev\project\
+ * the full path - C:\dev\project\
+ * the name - file.txt
+ * the base name - file
+ * the extension - txt
