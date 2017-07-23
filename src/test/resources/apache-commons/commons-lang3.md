@@ -1,0 +1,77 @@
+# apache-comnons系列之commons-lang3 学习笔记1
+## 概述
+- ClassLoader与System学习笔记
+    - http://blog.csdn.net/undergrowth/article/details/43647379
+- String、StringBuffer、StringBuilder、Math学习笔记
+    - http://blog.csdn.net/undergrowth/article/details/43676895
+- ObjectUtils
+  - Operations on {@code Object}.
+- ArrayUtils
+  - Operations on arrays, primitive arrays (like {@code int[]}) and primitive wrapper arrays (like {@code Integer[]})
+- StringUtils
+  - Operations on {@link java.lang.String} that are {@code null} safe
+- NumberUtils
+  - rovides extra functionality for Java Number classes
+- DateUtils
+  - A suite of utilities surrounding the use of the {@link java.util.Calendar} and {@link java.util.Date} object.
+  - FastDateParser
+    - FastDateParser is a fast and thread-safe version of {@link java.text.SimpleDateFormat}
+- DateFormatUtils
+- SystemUtils
+- ClassUtils
+- ThreadUtils
+- RandomUtils
+- ExceptionUtils
+- SerializationUtils
+## 测试
+- org.apache.commons.lang3.ObjectUtilsTest
+    - defaultIfNull
+    - max
+    - cloneIfPossible
+    - identityToString
+- org.apache.commons.lang3.ArrayUtilsTest
+    - toArray
+      - Create a type-safe generic array
+    - subarray
+      - Produces a new array containing the elements between the start and end indices
+      - System.arraycopy
+    - reverse
+      - Reverses the order of the given array
+    - swap
+    - removeElement
+      - Removes the first occurrence of the specified element from the specified array. All subsequent elements are shifted to the left (subtracts one from their indices). If the array doesn't contains such an element, no elements are removed from the array.
+    - indexOf
+      - Finds the index of the given value in the array
+- org.apache.commons.lang3.StringUtilsTest
+    - isEmpty
+      - Checks if a CharSequence is empty ("") or null.
+    - trim
+      - Removes control characters (char &lt;= 32) from both ends of this String, handling {@code null} by returning {@code null}.
+    - truncate
+      - Truncates a String. This will turn "Now is the time for all good men" into "Now is the time for".
+    - split
+      - Splits the provided text into an array, separator specified.This is an alternative to using StringTokenizer
+    - join
+      - Joins the elements of the provided {@code Iterator} into a single String containing the provided elements.
+    - replaceAll
+      - Replaces each substring of the text String that matches the given regular expression with the given replacement
+- org.apache.commons.lang3.math.NumberUtilsTest
+    - toInt
+      - Convert a <code>String</code> to an <code>int</code>, returning <code>zero</code> if the conversion fails
+    - min
+      - Returns the minimum value in an array
+    - compare
+      - ompares two {@code int} values numerically. This is the same functionality as provided in Java 7.
+- org.apache.commons.lang3.time.DateUtilsTest
+    - isSameDay
+      - Checks if two date objects are on the same day ignoring time.
+    - isSameInstant
+      - This method compares the long millisecond time of the two objects
+    - parseDate
+      - Parses a string representing a date by trying a variety of different parsers.
+    - addYears
+      - Adds a number of years to a date returning a new object.The original {@code Date} is unchanged.
+    - round
+      - Rounds a date, leaving the field specified as the most significant field.
+    - iterator
+      - Constructs an <code>Iterator</code> over each day in a date range defined by a focus date and range style.

@@ -1,5 +1,7 @@
 # apache-comnons系列之commons-io-2.5 org.apache.commons.io.IOUtils学习笔记
 ## 概述
+- OutputStream、InputStream、Writer、Reader学习笔记
+  - http://blog.csdn.net/undergrowth/article/details/43820639
 * General IO stream manipulation utilities.
  * This class provides static utility methods for input/output operations.
      * closeQuietly - these methods close a stream ignoring nulls and exceptions
