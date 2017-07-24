@@ -1,0 +1,37 @@
+# apache-comnons系列之commons-codec1.11 学习笔记
+## 概述
+- Base64
+  - Provides Base64 encoding and decoding as defined by <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
+- DigestUtils
+  - Operations to simplify common {@link java.security.MessageDigest} tasks.
+  - This class is immutable and thread-safe.
+  - However the MessageDigest instances it creates generally won't be.
+- MessageDigestAlgorithms
+  - Standard {@link MessageDigest} algorithm names from the <cite>Java Cryptography Architecture Standard Algorithm Name Documentation</cite>.
+- URLCodec
+  - Implements the 'www-form-urlencoded' encoding scheme, also misleadingly known as URL encoding.
+  - This class is thread-safe since 1.11
+- Encoder
+  - Provides the highest level of abstraction for Encoders
+- Decoder
+  - Provides the highest level of abstraction for Decoders
+## 测试
+- org.apache.commons.codec.binary.Base64Test
+  - encodeBase64String
+    - A-Z/a-z/0-9/-_
+    - They are formed by taking a block of 3 octets to form a 24-bit string,which is converted into 4 BASE64 characters.
+  - decodeBase64
+    - Decodes a Base64 String into octets.
+org.apache.commons.codec.digest.DigestUtilsTest
+  - md5Hex
+    - Calculates the MD5 digest and returns the value as a 32 character hex string.
+  - sha1Hex
+    - Calculates the SHA-1 digest and returns the value as a hex string.
+  - digestAsHex
+    - Reads through a byte array and returns the digest for the data.
+org.apache.commons.codec.net.URLCodecTest
+  - ESCAPE_CHAR = '%'
+  - encode
+    - Encodes a string into its URL safe form using the specified string charset. Unsafe characters are escaped.
+  - decode
+    - Decodes a URL safe string into its original form using the specified encoding. Escaped characters are converted back to their original representation
