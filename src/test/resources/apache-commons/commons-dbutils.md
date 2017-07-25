@@ -1,0 +1,56 @@
+# apache-comnons系列之commons-dbutils1.7 学习笔记
+## 概述
+- 参考
+  - http://blog.csdn.net/imust_can/article/details/7005972
+- DbUtils
+  - A collection of JDBC helper methods.  This class is thread safe.
+- QueryRunner
+  - Executes SQL queries with pluggable strategies for handling <code>ResultSet</code>s.  This class is thread safe
+- QueryLoader
+  - <code>QueryLoader</code> is a registry for sets of queries so that multiple copies of the same queries aren't loaded into memory.
+  - This implementation loads properties files filled with query name to SQL mappings.  This class is thread safe.
+- ResultSetHandler
+    - Implementations of this interface convert ResultSets into other objects.
+    - org.apache.commons.dbutils.handlers.ArrayHandler
+      -  return rs.next() ? this.convert.toArray(rs) : EMPTY_ARRAY;
+    - org.apache.commons.dbutils.handlers.BeanListHandler
+      - ResultSetHandler</code> implementation that converts a <code>ResultSet</code> into a <code>List</code> of beans. This class is thread safe.
+    - org.apache.commons.dbutils.handlers.MapHandler
+      - <code>ResultSetHandler</code> implementation that converts the first <code>ResultSet</code> row into a <code>Map</code>. This class is thread
+- RowProcessor
+    - RowProcessor</code> implementations convert<code>ResultSet</code> rows into various other objects.  Implementations can extend <code>BasicRowProcessor</code> to protect themselves from changes to this interface
+- BasicRowProcessor
+    - toArray
+    - toBean
+    - toMap
+- ColumnHandler
+    - Interface to define how implementations can interact with column handling when constructing a bean from a{@link java.sql.ResultSet}.  ColumnHandlers do the work of retrieving data correctly from the <code>ResultSet</code>.
+    - match
+    - apply
+- StringTrimmedResultSet
+    - Wraps a <code>ResultSet</code> to trim strings returned by the <code>getString()</code> and <code>getObject()</code> methods.
+    - type.cast(Proxy.newProxyInstance(handler.getClass().getClassLoader(), new Class<?>[] {type}, handler));
+## 测试
+- org.apache.commons.dbutils.DbUtilsTest
+      - closeQuietly
+        - Close a <code>Connection</code>, <code>Statement</code> and <code>ResultSet</code>.  Avoid closing if null and hide any SQLExceptions that occur.
+      - commitAndCloseQuietly
+        - Commits a <code>Connection</code> then closes it, avoid closing if null and hide any SQLExceptions that occur
+      - rollbackAndCloseQuietly
+        - Performs a rollback on the <code>Connection</code> then closes it,avoid closing if null and hide any SQLExceptions that occur
+      - loadDriver
+        - Loads and registers a database driver class.If this succeeds, it returns true, else it returns false
+- org.apache.commons.dbutils.QueryRunnerTest
+      - query
+        - Calls query after checking the parameters to ensure nothing is null.
+      - update
+        - Execute an SQL INSERT, UPDATE, or DELETE query with a single replacement parameter
+      - insert
+        - Executes the given INSERT SQL statement.
+- org.apache.commons.dbutils.QueryLoaderTest
+      - load
+        - Loads a Map of query names to SQL values.  The Maps are cached so a
+        - subsequent request to load queries from the same path will return
+        - the cached Map.  The properties file to load can be in either
+        - line-oriented or XML format.  XML formatted properties files must use a
+        - <code>.xml</code> file extension
