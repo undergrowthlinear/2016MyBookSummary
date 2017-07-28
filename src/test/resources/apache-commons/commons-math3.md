@@ -1,0 +1,32 @@
+# apache-comnons系列之commons-math3.6 学习笔记
+## 概述
+- 参考
+  - http://www.blogjava.net/changedi/archive/2010/12/10/340282.html
+  - http://blog.csdn.net/jiutianhe/article/details/41349649
+- FastMath
+  - Faster, more accurate, portable alternative to {@link Math} and {@link StrictMath} for large scale computation
+- MathUtils
+  - Miscellaneous utility functions.
+- StatUtils
+  - StatUtils provides static methods for computing statistics based on data stored in double[] arrays.
+- TransformUtils
+  - Useful functions for the implementation of various transforms.
+- RandomDataGenerator
+- KMeansPlusPlusClusterer
+  - Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
+- MatrixUtils
+  - A collection of static methods that operate on or return matrices.
+- Circle
+  - This class represents an oriented great circle on the 2-sphere.
+- ComplexUtils
+  - Static implementations of common{@link org.apache.commons.math3.complex.Complex} utilities functions.
+- FunctionUtils
+  - Utilities for manipulating function objects.
+## 测试
+- org.apache.commons.math3.util.FastMathTest
+  - incrementExact
+    - Increment a number, detecting overflows.
+  - min
+    - Compute the minimum of two values
+  - sin
+    - Sine function.
