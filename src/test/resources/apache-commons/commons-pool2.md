@@ -5,14 +5,12 @@
   - https://my.oschina.net/xinxingegeya/blog/391560
   - https://segmentfault.com/a/1190000003920723
   - https://www.idaima.com/article/1975
-- ObjectPool
-      - A pooling simple interface.
+- ObjectPool----A pooling simple interface.
     - GenericObjectPool
       - A configurable {@link ObjectPool} implementation.
     - GenericObjectPoolConfig
       - A simple "struct" encapsulating the configuration for a {@link GenericObjectPool}.
-- KeyedObjectPool
-      - A "keyed" pooling interface.
+- KeyedObjectPool----A "keyed" pooling interface.
     - GenericKeyedObjectPool
       - A configurable <code>KeyedObjectPool</code> implementation.
     - GenericKeyedObjectPoolConfig
