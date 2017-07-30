@@ -57,47 +57,47 @@
       -  Sends an FTP command to the server, waits for a reply and returns the numerical response code
       - __buildMessage
       - __send
-        - _controlOutput_.write(message);
-        - _controlOutput_.flush();
-        - fireCommandSent
-          - If there are any listeners, send them the command details./事件监听处理发送事件
-          - getCommandSupport().fireCommandSent(command, message);
-        - __getReply
-          - String line = _controlInput_.readLine();/等待命令返回信息
-          - _replyLines.add(line);
-          - fireReplyReceived
+          - _controlOutput_.write(message);
+          - _controlOutput_.flush();
+          - fireCommandSent
+            - If there are any listeners, send them the command details./事件监听处理发送事件
+            - getCommandSupport().fireCommandSent(command, message);
+          - __getReply
+            - String line = _controlInput_.readLine();/等待命令返回信息
+            - _replyLines.add(line);
+            - fireReplyReceived
       - fireReplyReceived
         - If there are any listeners, send them the reply details./事件监听处理返回信息
         - getCommandSupport().fireReplyReceived(replyCode, reply);
 - org.apache.commons.net.ftp.FTPClientTest/examples.ftp.FTPClientExample
     - private int __dataConnectionMode----决定数据传输时的初始化动作由服务器还是客户端进行初始化
     - __initDefaults
-      -- __dataConnectionMode = ACTIVE_LOCAL_DATA_CONNECTION_MODE;(数据传输由服务器进行初始化)
+        - __dataConnectionMode = ACTIVE_LOCAL_DATA_CONNECTION_MODE;(数据传输由服务器进行初始化)
     - login
-      - Login to the FTP server using the provided username and password.
+        - Login to the FTP server using the provided username and password.
     - user
-      - A convenience method to send the FTP USER command to the server,receive the reply, and return the reply code.
-      - FTPCmd.USER
+        - A convenience method to send the FTP USER command to the server,receive the reply, and return the reply code.
+        - FTPCmd.USER
     - pass
-      - A convenience method to send the FTP PASS command to the server,receive the reply, and return the reply code
-      - FTPCmd.PASS
+        - A convenience method to send the FTP PASS command to the server,receive the reply, and return the reply code
+        - FTPCmd.PASS
     - storeFile
-      - Stores a file on the server using the given name and taking input from the given InputStream.
-      - _storeFile
-        - _openDataConnection_
-          - if (__dataConnectionMode == ACTIVE_LOCAL_DATA_CONNECTION_MODE)
-            - port(getReportHostAddress(), server.getLocalPort())
-            -  socket = server.accept();
-          - else
-            - socket = _socketFactory_.createSocket();
-        - Util.copyStream
-        - completePendingCommand()
+        - Stores a file on the server using the given name and taking input from the given InputStream.
+        - _storeFile
+            - _openDataConnection_
+              - if (__dataConnectionMode == ACTIVE_LOCAL_DATA_CONNECTION_MODE)
+                - port(getReportHostAddress(), server.getLocalPort())
+                -  socket = server.accept();
+              - else
+                - socket = _socketFactory_.createSocket();
+            - Util.copyStream
+            - completePendingCommand()
     - retrieveFile
-      - Retrieves a named file from the server and writes it to the given OutputStream.
-      - _retrieveFile
-        - _openDataConnection_
-        - Util.copyStream
-        - completePendingCommand();
+        - Retrieves a named file from the server and writes it to the given OutputStream.
+        - _retrieveFile
+            - _openDataConnection_
+            - Util.copyStream
+            - completePendingCommand();
     - listFiles
       - Using the default system autodetect mechanism, obtain a list of file information for the current working directory.
       - 依赖解析引擎按照指定的解析格式和过滤器选出需要的文件列表
