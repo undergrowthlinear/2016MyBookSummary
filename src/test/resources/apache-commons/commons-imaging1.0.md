@@ -1,0 +1,33 @@
+# apache-comnons系列之commons-imaging1.0 学习笔记
+## 概述
+- Imaging
+  - The primary application programming interface (API) to the Imaging library.
+- ImageInfo
+  - ImageInfo represents a collection of basic properties of an image, such as width, height, format, bit depth, etc.
+- ImageFormat
+  - ImageFormats
+  - BMP/GIF...
+- ImageParser
+  - Provides the abstract base class for all image reading and writing utilities.  ImageParser implementations are expected to extend this
+  - class providing logic for identifying and processing data in their own specific format.
+- BmpImageParser
+## 测试
+- org.apache.commons.imaging.ImagingTest
+  - guessFormat
+    - Attempts to determine the image format of a file based on its "magic numbers," the first bytes of the data.
+    - compareBytePair
+    - MAGIC_NUMBERS_GIF = { 0x47, 0x49, };
+  - getImageInfo(委托给具体类型图片解析器)
+    - imageParser = getImageParser(byteSource);
+    - imageInfo = imageParser.getImageInfo(byteSource, params);
+  - getBufferedImage
+    - Reads the first image from a byte array.
+    - imageParser = getImageParser(byteSource);
+    - imageParser = getImageParser(byteSource);
+  - writeImage
+    - Writes the content of a BufferedImage to an OutputStream using the specified image format.  Specifications for storing the file (such as data compression,
+    - color models, metadata tags, etc.) may be specified using an optional parameters map.
+    - imageParser2.canAcceptType(format)
+    - imageParser.writeImage(src, os, params);
+- org.apache.commons.imaging.examples.SampleUsage
+  - 样例代码
