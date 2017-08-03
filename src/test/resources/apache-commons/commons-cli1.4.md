@@ -18,17 +18,17 @@
   - Represents list of arguments parsed against a {@link Options} descriptor
 ## 测试
 - org.apache.commons.cli.OptionTest
-  - opt----the name of the option
-  - longOpt----the long representation of the option
-  - argName----the name of the argument for this option
-  - description/required
-  - numberOfArgs
-    - the number of argument values this option can have
-  - valuesep
-    - the character that is the value separator
-  - List<String> values = new ArrayList<String>();----the list of argument values
-  - acceptsArg
-      - Tells if the option can accept more arguments.
+    - opt----the name of the option
+    - longOpt----the long representation of the option
+    - argName----the name of the argument for this option
+    - description/required
+    - numberOfArgs
+      - the number of argument values this option can have
+    - valuesep
+      - the character that is the value separator
+    - List<String> values = new ArrayList<String>();----the list of argument values
+    - acceptsArg
+        - Tells if the option can accept more arguments.
 - org.apache.commons.cli.OptionsTest
   - shortOpts/longOpts/requiredOpts/optionGroups
 - org.apache.commons.cli.CommandLineTest
@@ -36,11 +36,11 @@
   - args用于接收无法处理的参数
 - org.apache.commons.cli.DefaultParserTest
 - org.apache.commons.cli.ParserTestCase
-  - Option currentOption----The last option parsed.(表示期望解析参数的option)
-  - parse流程
-    - handleToken
-      - currentOption.addValueForProcessing
-        - processValue
-          - add(value);
-  - handleUnknownToken
-    - cmd.addArg(token);
+    - Option currentOption----The last option parsed.(表示期望解析参数的option)
+    - parse流程
+      - handleToken
+        - currentOption.addValueForProcessing
+          - processValue
+            - add(value);
+    - handleUnknownToken
+      - cmd.addArg(token);
