@@ -1,0 +1,46 @@
+# apache-comnons系列之commons-cli1.4 学习笔记
+## 概述
+- 参考
+  - https://segmentfault.com/a/1190000006795206
+- CommandLineParser
+  - A class that implements the <code>CommandLineParser</code> interface can parse a String array according to the {@link Options} specified and return a {@link CommandLine}.
+- DefaultParser
+  - Default parser.
+- Option
+  - Describes a single command-line option.  It maintains information regarding the short-name of the option, the long-name,
+   if any exists, a flag indicating if an argument is required for this option, and a self-documenting description of the option.
+- Options
+  - Options represents a collection of {@link Option} objects, which describe the possible options for a command-line.
+- OptionGroup
+  - A group of mutually exclusive options.
+  - optionMap = new LinkedHashMap<String, Option>();
+- CommandLine
+  - Represents list of arguments parsed against a {@link Options} descriptor
+## 测试
+- org.apache.commons.cli.OptionTest
+  - opt----the name of the option
+  - longOpt----the long representation of the option
+  - argName----the name of the argument for this option
+  - description/required
+  - numberOfArgs
+    - the number of argument values this option can have
+  - valuesep
+    - the character that is the value separator
+  - List<String> values = new ArrayList<String>();----the list of argument values
+  - acceptsArg
+      - Tells if the option can accept more arguments.
+- org.apache.commons.cli.OptionsTest
+  - shortOpts/longOpts/requiredOpts/optionGroups
+- org.apache.commons.cli.CommandLineTest
+  - args = new LinkedList<String>();/options = new ArrayList<Option>();
+  - args用于接收无法处理的参数
+- org.apache.commons.cli.DefaultParserTest
+- org.apache.commons.cli.ParserTestCase
+  - Option currentOption----The last option parsed.(表示期望解析参数的option)
+  - parse流程
+    - handleToken
+      - currentOption.addValueForProcessing
+        - processValue
+          - add(value);
+  - handleUnknownToken
+    - cmd.addArg(token);
