@@ -7,6 +7,7 @@
   - 以PropertiesConfiguration-->FileBasedConfiguration-->Configuration/FileBased
   - 以PropertiesConfiguration-->BaseConfiguration-->AbstractConfiguration-->Configuration/BaseEventSource
   - Configuration-->ImmutableConfiguration/SynchronizerSupport
+### 策略、工厂、组合
 ---
 ```
 利用FileHandler的load方法委托FileBased加载FileLocator指向的文件流，回调PropertiesConfiguration的read
@@ -16,11 +17,11 @@ nextProperty获取(readProperty)并解析(parseProperty)属性,将解析出来�
 ```
 ---
 ## 创建配置对象流程(生成器模式)
-  - ReloadingFileBasedConfigurationBuilder-->FileBasedConfigurationBuilder-->BasicConfigurationBuilder-->
-  - ConfigurationBuilder-->EventSource-->
+  - ReloadingFileBasedConfigurationBuilder-->FileBasedConfigurationBuilder-->BasicConfigurationBuilder
+  - ConfigurationBuilder-->EventSource
+### 利用生成器模式创建相关对象
 ---
 ```
-利用生成器模式创建相关对象
 通过ReloadingFileBasedConfigurationBuilder的configure配制BuilderParameters参数,例如Parameters设置fileBased文件路径(利用代理模式)
 通过getConfiguration获取配置对象,并进行配置对象的初始化(委托给FileBasedConfigurationBuilder的initFileHandler,利用其加载文件,
 剩下过程如配置对象加载)
@@ -28,10 +29,10 @@ nextProperty获取(readProperty)并解析(parseProperty)属性,将解析出来�
 ---
 ## 测试
 - org.apache.commons.configuration2.TestPropertiesConfiguration
-  - 找到FileLocator指向的文件利用FileLocatorUtils.locate查找(使用FileLocationStrategy策略模式)
-  - 创建PropertiesReader,利用DefaultIOFactory工厂模式创建PropertiesReader
-  - interpolatedConfiguration
-    - 获取支持变量替换的配置对象,委托ConfigurationInterpolator的interpolate利用Lookup的lookup查找变量进行替换
+    - 找到FileLocator指向的文件利用FileLocatorUtils.locate查找(使用FileLocationStrategy策略模式)
+    - 创建PropertiesReader,利用DefaultIOFactory工厂模式创建PropertiesReader
+    - interpolatedConfiguration
+      - 获取支持变量替换的配置对象,委托ConfigurationInterpolator的interpolate利用Lookup的lookup查找变量进行替换
 - org.apache.commons.configuration2.builder.TestReloadingFileBasedConfigurationBuilder
     - getConfiguration(BasicConfigurationBuilder)
         - createResult(BasicConfigurationBuilder)
