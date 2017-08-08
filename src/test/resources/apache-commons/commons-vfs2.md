@@ -57,8 +57,8 @@
   - org.apache.commons.vfs2.VFS.getManager
   - createManager("org.apache.commons.vfs2.impl.StandardFileSystemManager")
 - org.apache.commons.vfs2.impl.test.DefaultFileSystemManagerTest
-  - providers = new HashMap<String, FileProvider>();
-  - components = new ArrayList<Object>();
+  - providers = new HashMap();
+  - components = new ArrayList();
   - LocalFileProvider localFileProvider;
   - FileProvider defaultProvider;
   - org.apache.commons.vfs2.impl.StandardFileSystemManager.init(初始化方法从providers.xml或者META-INF/vfs-providers.xml进行provider等信息的加载与配置)
