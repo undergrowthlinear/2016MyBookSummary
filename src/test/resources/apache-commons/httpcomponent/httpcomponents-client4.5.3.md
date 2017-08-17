@@ -1,0 +1,61 @@
+# apache  httpcomponents-client4.5.3 学习笔记
+## 概述
+- 参考
+  - http://blog.csdn.net/undergrowth/article/details/77203668
+  - 通过对httpcomponent-core的HttpRequest/HttpResponse/HttpEntity/HttpClient进一步细化,支持客户端需求
+  - 引入HttpRoute/ResponseHandler/ClientExecChain/HttpClientConnectionManager/CookieStore/CredentialsProvider管理支持一步支持请求路由,响应处理,请求过滤链,连接池,cookie以及认证支持
+## httpcomponent-core已有功能丰富
+- HttpRequest
+  - HttpPost---->HttpEntityEnclosingRequestBase---->HttpRequestBase---->HttpUriRequest---->HttpRequest
+  - HttpGet---->HttpRequestBase---->HttpUriRequest---->HttpRequest
+    - HttpRequest提供请求行(RequestLine)支持
+    - HttpUriRequest提供uri和method支持
+    - HttpRequestBase/HttpEntityEnclosingRequestBase提供抽象类支持,支持ProtocolVersion协议
+    - HttpGet/HttpPost完成特定的post/get请求
+- HttpResponse
+  - HttpResponseProxy---->CloseableHttpResponse---->HttpResponse
+  - HttpResponseProxy支持对响应的连接进行释放操作
+- HttpEntity
+  - UrlEncodedFormEntity---->StringEntity---->AbstractHttpEntity---->HttpEntity
+  - UrlEncodedFormEntity提供uri编码的自我包含的实体
+- HttpClient
+  - InternalHttpClient---->CloseableHttpClient---->HttpClient
+  - 对连接支持cookie/请求路由/过滤链等支持
+## httpcomonent-client新引入功能
+- HttpRoute
+  - HttpRoute---->RouteInfo
+  - 对HttpHost的路由信息的支持
+- ResponseHandler
+  - BasicResponseHandler---->AbstractResponseHandler---->ResponseHandler
+  - AbstractResponseHandler提供对响应状态的过滤,只返回2xx状态进一步进行处理
+  - BasicResponseHandler将实体转换为string进行消费(EntityUtils.toString(entity))
+- ClientExecChain
+  - MainClientExec---->ClientExecChain
+  - ClientExecChain提供对请求链支持
+  - MainClientExec执行链支持,负责和对端服务器进行请求和响应
+- HttpClientConnectionManager
+  - PoolingHttpClientConnectionManager---->HttpClientConnectionManager
+  - PoolingHttpClientConnectionManager对连接池的支持,委托给CPool进行CPoolEntry项的管理
+  - CPoolEntry以HttpRoute为key,以ManagedHttpClientConnection为value进行管理,类似于BasicPoolEntry
+- CookieStore
+  - BasicCookieStore---->CookieStore
+  - BasicCookieStore利用TreeSet对cookie进行管理
+- CredentialsProvider
+  - BasicCredentialsProvider---->CredentialsProvider
+  - BasicCredentialsProvider利用ConcurrentHashMap管理认证范围与认证信息
+## 测试
+- examples.org.apache.http.examples.client.QuickStart
+- examples.org.apache.http.examples.client.ClientWithResponseHandler
+- examples.org.apache.http.examples.client.ClientAuthentication
+- examples.org.apache.http.examples.client.ClientFormLogin
+- examples.org.apache.http.examples.client.ClientEvictExpiredConnections
+- 描述完整的创建连接,发起请求,处理响应流程
+  - 以examples.org.apache.http.examples.client.ClientEvictExpiredConnections为例子
+    - org.apache.http.impl.client.HttpClients.custom
+    - org.apache.http.impl.client.HttpClientBuilder.build
+      - 利用传入的connManagerCopy创建新的org.apache.http.impl.client.InternalHttpClient,创建默认的执行链MainClientExec
+        - org.apache.http.impl.client.CloseableHttpClient.execute(org.apache.http.client.methods.HttpUriRequest)
+        - org.apache.http.impl.client.InternalHttpClient.doExecute
+          - 调用创建InternalHttpClient传入的执行链执行请求org.apache.http.impl.execchain.MainClientExec.execute
+          - 利用org.apache.http.impl.conn.PoolingHttpClientConnectionManager.requestConnection获取连接,委托给CPool的父类AbstractConnPool创建,详细过程见上篇文章
+           - 委托给org.apache.http.protocol.HttpRequestExecutor.execute进行请求处理,剩下过程就如同上篇所说
