@@ -1,0 +1,25 @@
+# okio 1.13.0 学习笔记
+## 概述
+- 参考
+  - http://blog.csdn.net/zoudifei/article/details/51232711
+- okhttp底层支持库,对java.io/java.nio的补充,利用Buffer封装的Source/Sink操作输入流/输出流,
+- Buffer利用Segment支持底层的数据复制、读取、写入
+## Buffer---->自动增长的字节集合
+- Buffer---->BufferedSource---->Source
+  - Source提供读取输入流读取支持
+  - BufferedSource提供Buffer级别的输入流读取支持
+- Buffer---->BufferedSink---->Sink
+  - Sink提供写入输出流支持
+  - BufferedSink提供Buffer级别的写入输出流支持
+## Segment/SegmentPool
+- Segment---->以8k为大小的字节数组,以双向链表的方式支持Buffer读取或者写入数据
+- SegmentPool---->支持8个Segment的获取与回收
+## ByteString----不可变的字节数组支持
+- 提供不同的方式支持字节数组与字符串的转换,例如md5/sha1/base64等等
+## Okio----入口
+- okio库的入口,支持从路径、文件、输入流转为Source
+- 支持从文件、套接字、输出流转为Sink
+## 测试
+- okio.OkioTest
+- okio.RealBufferedSinkTest
+- okio.RealBufferedSourceTest
