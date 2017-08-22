@@ -3,12 +3,43 @@
 - 参考
   - http://blog.csdn.net/ljd2038/article/details/51046512
   - http://www.jianshu.com/p/3e13e5d34531
+  - http://blog.csdn.net/undergrowth/article/details/77417973
+  - http://blog.csdn.net/undergrowth/article/details/77410994
 - 属于square的okio/okhttp的延伸,基于okhttp,将java接口转为http请求与响应
-- Retrofit---->入口
-- Converter---->对象转换器,转换java对象到http对应的RequestBody/ResponseBody
-- CallAdapter---->适配okhttp的Call与java接口响应
-- OkHttpCall---->Call实现,用于转换java接口为封装Request的Call,执行Call,转换响应为Response
-- ServiceMethod---->记录java接口相关信息(方法注解,参数注解,参数类型),适配java接口信息与http请求/响应信息
-- ParameterHandler---->用于java接口方法的参数注解解析器,将相关参数注解信息转为http请求的相关信息
+## Retrofit---->入口
+- Retrofit adapts a Java interface to HTTP calls by using annotations on the declared methods to define how requests are made.
+- baseUrl(请求基础路径)/callFactory(调用工厂,默认为OkHttpClient)/callbackExecutor
+- adapterFactories（适配器工厂,默认的为DefaultCallAdapterFactory）/converterFactories(转换器工厂)
+- retrofit2.Retrofit#create---->创建服务接口的代理实现类
+  - java接口注解与参数的解析委托给ServiceMethod实现,ServiceMethod委托ParameterHandler处理参数注解,利用注解方法解析方法注解
+  - 将转备好的request信息转给OkHttpCall进行封装,利用OKhttp的机制进行请求的执行与解析,详情见上篇
+  - ServiceMethod利用Retrofit创建时注入的转换器,进行ResponseBody为java对象的转换
+## Converter---->对象转换器,转换java对象到http对应的RequestBody/ResponseBody
+- StringResponseBodyConverter---->Converter---->ResponseBody转为String
+- GsonResponseBodyConverter---->Converter---->ResponseBody转为T,利用gson的TypeAdapter进行转换
+- GsonRequestBodyConverter---->Converter---->T转为RequestBody,利用gson的TypeAdapter进行转换
+- StringConverterFactory---->Converter.Factory---->创建string的转换器工厂
+- GsonConverterFactory---->Converter.Factory---->创建gson的转换器工厂
+- BuiltInConverters---->Converter.Factory---->内建转换器支持(只支持RequestBody/ResponseBody)
+## CallAdapter---->适配okhttp的Call与java接口响应
+- DefaultCallAdapterFactory---->CallAdapter.Factory---->支持将Call<Object>转为Call<Object>,记录responseType
+- retrofit2.CallAdapter#adapt---->适配类型
+## OkHttpCall---->Call实现,用于转换java接口为封装Request的Call,执行Call,转换响应为Response
+- retrofit2.OkHttpCall#execute
+  - retrofit2.OkHttpCall#createRawCall(委托serviceMethod.toRequest(args)创建Request,利用okhttpclient封转为Call)
+  - call.execute()---->流程如前文一致
+  - retrofit2.OkHttpCall#parseResponse---->(解析响应,委托给serviceMethod.toResponse,利用相应的转换器得到响应的T)
+## ServiceMethod---->记录java接口相关信息(方法注解,参数注解,参数类型),适配java接口信息与http请求/响应信息
+- callAdapter/responseType/responseConverter
+- parseMethodAnnotation---->解析方法注解,例如GET/PUT等
+- 构建parameterHandlers解析器数组,在构建Request的时候,进行参数的处理,例如Path、Query等
+## ParameterHandler---->用于java接口方法的参数注解解析器,将相关参数注解信息转为http请求的相关信息
+- Path---->ParameterHandler
+  - retrofit2.ParameterHandler.Path#apply
+- Query---->ParameterHandler
+  - retrofit2.ParameterHandler.Query#apply
+- Body---->ParameterHandler
+  - retrofit2.ParameterHandler.Body#apply
 ## 测试
 - com.example.retrofit.SimpleService
+- com.example.retrofit.Crawler(爬虫演示,演示了自定义转换器,配置OkHttpClient以及连接池/分发器异步执行)
