@@ -1,0 +1,38 @@
+# druid1.1.2 学习笔记
+## 概述
+- 参考
+  - https://github.com/alibaba/druid/wiki/%E9%A6%96%E9%A1%B5
+## DataSource---->数据源(连接池)
+- DruidDataSource---->DataSource(支持创建基本连接)/DruidDataSource---->ConnectionPoolDataSource(支持创建池连接)
+- DruidXADataSource---->XADataSource(支持池连接与分布式事务管理)
+- DruidDataSource---->入口
+  - notEmpty/empty---->判断连接池是否够用,进行连接的创建与销毁通知
+  - com.alibaba.druid.pool.DruidDataSource#init---->初始化连接池
+      - 创建initialSize的连接
+        - createPhysicalConnection---->创建物理连接
+          - com.alibaba.druid.pool.DruidAbstractDataSource#createPhysicalConnection(java.lang.String, java.util.Properties)
+          - 利用驱动器直接创建还是利用过滤器链执行后再利用驱动器创建
+      - connections---->存入以poolingCount为索引的数组
+      - 启动日志统计线程、创建连接线程、销毁连接线程---->如果配置配置相应的执行池,则创建连接任务与销毁任务
+      - 注册mbean
+  - com.alibaba.druid.pool.DruidDataSource#getConnection()---->获取链接
+      - 进行初始化判断init
+      - com.alibaba.druid.pool.DruidDataSource#getConnectionDirect---->根据maxWait时间获取连接
+        - com.alibaba.druid.pool.DruidDataSource#pollLast---->如果poolingCount=0,则emptySignal告知创建线程创建连接,放入connections数组
+  - com.alibaba.druid.pool.DruidDataSource#recycle---->回收链接(由连接close方法调用数据源的recycle)
+      - 通过com.alibaba.druid.pool.DruidDataSource#putLast放入回connections数组,poolingCount加1,通知非空notEmpty
+      - com.alibaba.druid.pool.DruidPooledConnection#close---->com.alibaba.druid.pool.DruidDataSource#recycle
+  - com.alibaba.druid.pool.DruidDataSource#close---->销毁连接池
+## Connection---->连接
+- DruidPooledConnection---->PooledConnection
+- DruidPooledConnection---->Connection
+# Filter---->过滤器(定义一系列的连接/语句/结果集的执行动作)
+- FilterAdapter---->过滤器默认实现
+- WallFilter---->防御sql注入
+- StatFilter---->统计过滤器
+## 解析器/抽象语法树/遍历器
+- https://github.com/alibaba/druid/wiki/SQL-Parser
+## 测试
+- com.alibaba.druid.mysql.MySql_getCreateTableScriptTest
+- com.alibaba.druid.pool.demo.Demo0
+- com.alibaba.druid.pool.DruidTest
