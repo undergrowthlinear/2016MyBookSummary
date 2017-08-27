@@ -1,0 +1,48 @@
+# eureka 1.8.0 学习笔记
+## 概述
+- 参考
+    - https://zhuanlan.zhihu.com/p/24829766
+    - 服务提供者注册服务到服务中心,服务消费者从服务中心获取服务,服务消费者调用服务提供者
+## 服务端---->eureka的服务中心,接收处理服务注册、续约、取消、状态获取、更新获取状态等相关操作
+### 服务注册中心提供服务支持
+- ApplicationResource/ApplicationsResource
+    - ApplicationResource提供应用程序请求支持,添加实例信息,获取实例信息,获取应用程序信息
+    - ApplicationsResource提供获取应用程序
+- InstanceResource/InstancesResource
+    - InstanceResource提供实例续约、实力取消、状态更新、删除状态
+    - InstancesResource提供应用程序实例获取
+- PeerAwareInstanceRegistryImpl---->AbstractInstanceRegistry---->InstanceRegistry---->LeaseManager---->LookupService
+- PeerAwareInstanceRegistryImpl---->PeerAwareInstanceRegistry---->InstanceRegistry---->LeaseManager---->LookupService
+    - LookupService提供获取Application/InstanceInfo支持
+    - LeaseManager提供实例注册、实例取消、实例续约、移除过期实例支持
+    - InstanceRegistry提供更多实例注册支持,例如实例获取、状态更新
+    - AbstractInstanceRegistry提供支持所有的注册请求来自于eureka的客户端
+      - registry---->存放以应用程序为key,应用程序所有实例信息的Map(以实例ID为key，租借信息为实例信息的value)
+    - PeerAwareInstanceRegistry提供初始化等支持
+    - PeerAwareInstanceRegistryImpl处理注册中心的同等复制等
+      - com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl#init---->进行初始化动作
+- DefaultEurekaServerContext---->EurekaServerContext
+  - com.netflix.eureka.DefaultEurekaServerContext#initialize---->初始化注册init服务、初始化PeerEurekaNode节点信息
+- DefaultEurekaServerConfig---->EurekaServerConfig
+  - 注册中心配置支持
+### 服务注册中心对等节点集群支持
+- PeerEurekaNode----提供支持服务中心的Register,Renew,Cancel,Expiration and Status Changes
+- PeerEurekaNodes----PeerEurekaNode的工具类支持
+    - com.netflix.eureka.cluster.PeerEurekaNodes#start---->对等节点初始化
+## 客户端---->由服务提供者(发起服务注册、续约、取消)与服务消费者(发起状态获取、更新获取)组成
+- DiscoveryClient---->EurekaClient---->服务的发现客户端,相对于服务注册中心而言,包含服务提供者与服务消费者
+    - com.netflix.discovery.DiscoveryClient#initScheduledTasks---->获取实例缓存信息更新任务、发送续约信息任务
+    - com.netflix.discovery.DiscoveryClient.CacheRefreshThread
+    - com.netflix.discovery.DiscoveryClient.HeartbeatThread
+- RetryableEurekaHttpClient---->EurekaHttpClientDecorator/AbstractJerseyEurekaHttpClient---->EurekaHttpClient---->底层通信http
+    - EurekaHttpClient提供底层http的register、sendHeartBeat、cancel、getInstance等支持
+    - EurekaHttpClientDecorator提供装饰器支持
+    - AbstractJerseyEurekaHttpClient提供Jersey机制的实际请求,最终的请求执行点
+    - RetryableEurekaHttpClient提供重试机制的支持
+- JerseyEurekaHttpClientFactory---->TransportClientFactory
+    - TransportClientFactory提供根据端点信息获取EurekaHttpClient的工厂
+- DefaultEurekaClientConfig---->EurekaClientConfig---->客户端配置支持
+  - Configuration information required by the eureka clients to register an instance with <em>Eureka</em> server.
+## 测试
+- com.netflix.eureka.registry.InstanceRegistryTest
+- com.netflix.discovery.DiscoveryClientRegistryTest
