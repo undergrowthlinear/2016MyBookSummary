@@ -1,0 +1,59 @@
+# feign 9.3.0 学习笔记
+## 概述
+- 参考
+  - https://github.com/OpenFeign/feign
+  - http://hao.jobbole.com/feign/
+## Feign---->入口
+- feign为了简化开发通过http调用
+- ReflectiveFeign---->Feign
+  - newInstance---->用于实例的转换
+## 完成代理主要类
+- HardCodedTarget---->Target
+  - apply---->用于将java接口T的信息通过RequestTemplate转为Request
+- Default---->InvocationHandlerFactory
+  - InvocationHandlerFactory提供根据反射方法创建调用处理器
+- FeignInvocationHandler---->InvocationHandler(负责中转java代理对象方法调用到对应的MethodHandler处理器上)
+- SynchronousMethodHandler---->MethodHandler
+  - MethodHandler提供方法级别的调用处理器
+  - SynchronousMethodHandler提供同步的方法调用支持
+    - feign.SynchronousMethodHandler#executeAndDecode---->完成最终的方法转换、调用、响应解析
+## java接口注解支持
+- RequestLine---->请求行,包含路径、查询参数、http方法、协议版本
+- Param---->参数注解,用于请求行、body、消息头
+- Headers---->消息头支持
+- Body---->消息体支持
+## MethodMetadata---->存放java接口方法的注解、参数注解、参数信息
+## RequestTemplate---->请求模板,用于根据解析的java信息转换为请求对象
+- feign.RequestTemplate#request
+## 基础支持---->协议、编解码、日志
+- Contract---->用于定义哪些注解以及值是有效的
+  - Default---->BaseContract---->Contract
+  - parseAndValidatateMetadata解析相关注解,产生MethodMetadata信息
+  - processAnnotationOnClass/processAnnotationOnMethod/processAnnotationsOnParameter3个方法解析相关注解
+- Encoder---->将java对象转为http请求体
+  - GsonEncoder---->Encoder(利用gson进行转换)
+- Decoder---->转换http响应为java对象
+  - GsonDecoder---->Decoder(利用gson进行转换)
+- ErrorDecoder---->进行错误信息的进一步封装,响应更友好的异常信息
+  - Default---->ErrorDecoder
+- Logger.Level
+  - Slf4jLogger---->feign.Logger(slf4j支持debug级别的信息输出)
+## http层调用支持
+- OkHttpClient---->Client(进行http请求提交，解析相应响应信息)
+- Default---->Retryer(重试机制支持)
+## 测试
+- feign.example.github.GitHubExample为例,数据流如下
+    - feign.example.github.GitHubExample.GitHub#connect---->生成java接口的代理对象(第一步)
+      - Feign.builder---->通过生成器模式创建ReflectiveFeign子类,设置decoder/errorDecoder/logger以及target与url
+        - feign.ReflectiveFeign.ParseHandlersByName#apply---->用于产生java接口相关方法的处理器(核心方法)
+          - 通过此方法利用Contract解析java接口的注解信息,转换为MethodMetadata,
+          - 通过对MethodMetadata信息的解析,构造MethodHandler
+        - feign.ReflectiveFeign#newInstance(通过调用此方法返回GitHub接口的代理类)
+    - github.contributors---->java接口调用(第二步)
+      - feign.ReflectiveFeign.FeignInvocationHandler#invoke---->代理对象回调处理器
+        - dispatch.get(method).invoke(args)---->获取到方法处理器进行方法调用
+          - feign.SynchronousMethodHandler#invoke
+            - buildTemplateFromArgs.create---->创建RequestTemplate
+            - targetRequest---->创建Request
+            - client.execute---->利用client执行请求
+            - feign.SynchronousMethodHandler#decode---->解析响应
