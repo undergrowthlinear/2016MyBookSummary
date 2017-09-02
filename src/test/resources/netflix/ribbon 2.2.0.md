@@ -1,0 +1,42 @@
+# ribbon 2.2.0 学习笔记
+## 概述
+- 参考
+  - http://www.jianshu.com/p/19bcd9acf559
+  - http://blog.csdn.net/neosmith/article/details/53967330
+  - 软负载均衡需要支持三个功能,带选择的服务器列表/从待选服务器中选出一个服务器/调用选择的服务器
+## ILoadBalancer/LoadBalancerBuilder---->负载均衡入口
+- 提供软负载均衡三个功能的入口
+- LoadBalancerBuilder提供生成器模式创建BaseLoadBalancer
+- BaseLoadBalancer---->AbstractLoadBalancer---->ILoadBalancer
+  - ILoadBalancer提供添加Server、选择Server、获取Server列表等支持
+  - AbstractLoadBalancer提供负载统计、服务组等支持
+  - BaseLoadBalancer提供基本实现
+    - com.netflix.loadbalancer.BaseLoadBalancer#initWithConfig---->提供初始化构建
+      - com.netflix.loadbalancer.BaseLoadBalancer.PingTask---->根据策略是否启动ping机制
+      - com.netflix.loadbalancer.BaseLoadBalancer#init---->加入监控
+- LoadBalancerCommand----->负载均衡命令,用于中转请求到负载均衡器
+- ServerOperation---->提供基于rxjava的Observable支持
+## Server/ServerList/ServerListFilter---->(带选择的服务器列表支持)
+## IRule---->负载均衡策略(从待选服务器中选出一个服务器支持)
+- RoundRobinRule---->AbstractLoadBalancerRule---->IRule
+  - RoundRobinRule最基础/常用的轮询负载策略
+  - nextServerCyclicCounter---->用于记录当前已轮询到的服务器索引
+  - com.netflix.loadbalancer.RoundRobinRule#incrementAndGetModulo---->利用CAS策略,获取下一个待轮询的服务器索引值
+- AvailabilityFilteringRule---->默认的策略支持,提供基于过滤器的策略支持,封装轮询策略
+  - AvailabilityFilteringRule---->PredicateBasedRule---->ClientConfigEnabledRoundRobinRule---->AbstractLoadBalancerRule
+## LoadBalancingHttpClient/RibbonTransport---->HttpClient的支持,连接到不同的服务器(调用选择的服务器)
+- RibbonTransport提供静态的创建LoadBalancingHttpClient方法支持
+- submit---->提交request使用负载均衡器
+  - 创建LoadBalancerCommand进行执行,构建ServerOperation进行实际的请求
+    - com.netflix.loadbalancer.reactive.LoadBalancerCommand#submit---->构建Observable,
+    - 用于ILoadBalancer获取服务器,利用ServerOperation请求执行,利用retryHandler判断是否应该进行重试
+## RetryHandler---->重试机制,ILoadBalancer用于判断错误或者异常是否应该重试
+- NettyHttpLoadBalancerErrorHandler---->DefaultLoadBalancerRetryHandler---->RetryHandler
+  - NettyHttpLoadBalancerErrorHandler---->提供netty机制的错误支持,例如ReadTimeoutException/ConnectTimeoutException等
+## 其他支持
+- IClientConfig---->用于初始化客户端与负载均衡器支持
+- LoadBalancerStats---->负载的状态信息统计仓库
+- ExecutionContext---->执行上下文支持,提供共享信息支持
+- IPing---->ping协议检测服务器是否存活
+## 测试
+- com.netflix.ribbon.examples.netty.http.LoadBalancingExample
