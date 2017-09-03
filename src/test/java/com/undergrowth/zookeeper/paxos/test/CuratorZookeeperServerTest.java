@@ -12,24 +12,26 @@ import org.junit.Test;
  */
 public class CuratorZookeeperServerTest {
 
-	CuratorLearn curator = null;
+  CuratorLearn curator = null;
 
-	@Before
-	public void before() {
-		curator = new CuratorLearn();
-	}
+  @Before
+  public void before() {
+    curator = new CuratorLearn();
+  }
 
-	@Test
-	public void serverClusterTest() {
-		curator.serverCluster(3);
-	}
+  @Test
+  public void serverClusterTest() {
+    curator.serverCluster(3);
+  }
 
-	@Test
-	public void testingServerTest() {
-		String pathname="d:\\";
-		String path="/zookeeper";
-		curator.testingServer(pathname, path);
-		while (true);
-	}
+  @Test
+  public void testingServerTest() {
+    String pathname = "d:\\";
+    String path = "/zookeeper";
+    curator.testingServer(pathname, path);
+    while (true) {
+      ;
+    }
+  }
 
 }

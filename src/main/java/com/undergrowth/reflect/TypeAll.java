@@ -43,26 +43,28 @@ public class TypeAll {
   public static void displayType(Type t, String prefix) {
     System.out.println(prefix);
     System.out.println(t.getTypeName());
-    if (t instanceof Class){
+    if (t instanceof Class) {
       System.out.println("--------Class--------start");
-      Class aClass=((Class) t);
+      Class aClass = ((Class) t);
       System.out.println(aClass.getTypeName());
       System.out.println("--------Class--------end");
     }
-    if (t instanceof ParameterizedType){
+    if (t instanceof ParameterizedType) {
       System.out.println("--------ParameterizedType--------start");
-      ParameterizedType parameterizedType=((ParameterizedType) t);
-      System.out.println(parameterizedType.getRawType().getTypeName()+"---->"+parameterizedType.getOwnerType().getTypeName());
-      Type[] ptArray=parameterizedType.getActualTypeArguments();
-      for (Type tItem:
-      ptArray) {
+      ParameterizedType parameterizedType = ((ParameterizedType) t);
+      System.out.println(
+          parameterizedType.getRawType().getTypeName() + "---->" + parameterizedType.getOwnerType()
+              .getTypeName());
+      Type[] ptArray = parameterizedType.getActualTypeArguments();
+      for (Type tItem :
+          ptArray) {
         System.out.println(tItem.getTypeName());
       }
       System.out.println("--------ParameterizedType--------end");
     }
-    if (t instanceof GenericArrayType){
+    if (t instanceof GenericArrayType) {
       System.out.println("--------GenericArrayType--------start");
-      GenericArrayType genericArrayType=((GenericArrayType) t);
+      GenericArrayType genericArrayType = ((GenericArrayType) t);
       System.out.println(genericArrayType.getGenericComponentType().getTypeName());
       System.out.println("--------GenericArrayType--------end");
     }
