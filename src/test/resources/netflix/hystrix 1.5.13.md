@@ -14,10 +14,14 @@
     - circuitOpened---->熔断打开时间(-1)
     - isAfterSleepWindow---->是否是在熔断的休眠时间后,基于currentTime > circuitOpenTime + sleepWindowTime(circuitBreakerSleepWindowInMilliseconds----5000ms)
     - 置熔断状态为半开状态status.compareAndSet(Status.OPEN, Status.HALF_OPEN)
+  - com.netflix.hystrix.HystrixCircuitBreaker.HystrixCircuitBreakerImpl#subscribeToStream
+    - 当达到设定的阀值时,status.compareAndSet(Status.CLOSED, Status.OPEN)
 - NoOpCircuitBreaker---->HystrixCircuitBreaker----->关闭熔断支持
 - 熔断器三种状态---->CLOSED, OPEN, HALF_OPEN
 ## HystrixCommand---->命令模式
 - HystrixCommand---->AbstractCommand
+- terminateCommandCleanup---->完成清理动作
+- unsubscribeCommandCleanup---->完成从status.compareAndSet(Status.HALF_OPEN, Status.OPEN)的转化
 - com.netflix.hystrix.AbstractCommand#applyHystrixSemantics---->核心流程方法
   - com.netflix.hystrix.AbstractCommand#executeCommandAndObserve
   - com.netflix.hystrix.AbstractCommand#executeCommandWithSpecifiedIsolation
