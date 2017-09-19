@@ -1,0 +1,60 @@
+# servo 0.12.17 学习笔记
+## 概述
+- 参考
+    - jmx相关参考
+      - http://blog.csdn.net/vking_wang/article/details/8668743
+      - http://blog.csdn.net/lmy86263/article/details/71037316
+## MonitorRegistry---->监控的注册器
+- DefaultMonitorRegistry---->MonitorRegistry
+  - MonitorRegistry提供注册、卸载、获取监控
+  - DefaultMonitorRegistry提供默认的实现,如果未配置registryClass,则委托给JmxMonitorRegistry
+- JmxMonitorRegistry---->MonitorRegistry
+    - monitors---->记录当前已注册Monitor
+    - name---->统一域名前缀
+    - register
+        - 利用MonitorMBean#createMBeans(mbeans,domain,monitor,mapper)创建MonitorMBean
+        - 通过mBeanServer注册monitor转化的MonitorMBean
+        - 将Monitor放入monitors,更新updatePending状态
+  - unregister做相反的事情
+## Monitor---->监控---->Monitors(辅助类)
+- BasicTimer---->AbstractMonitor---->Monitor
+- BasicTimer---->CompositeMonitor---->Monitor
+- BasicTimer---->Timer--->NumericMonitor---->Monitor
+  - Monitor提供获取配置相关的指定值
+  - AbstractMonitor提供基本功能
+  - CompositeMonitor提供获取监控列表
+  - NumericMonitor提供数字值的监控
+  - Timer提供计时相关功能支持
+- StepCounter---->Counter---->NumericMonitor---->Monitor
+  - Counter提供步进计数支持
+- MinGauge---->Gauge---->NumericMonitor---->Monitor
+  - Gauge提供指定监控值支持
+- Informational---->Monitor---->提供string监控支持
+- Monitors---->Monitor的辅助类,解析注解信息,生成相关的Monitor
+    - registerObject
+      - Monitors#newObjectMonitor---->通过反射获取MonitorTags与Monitor注解标示的方法与字段,以及属于Monitor子类的字段
+          - getMonitorTags---->利用反射获取对象字段与方法上拥有的MonitorTags注解信息
+          - addMonitorFields---->属于Monitor子类的字段
+          - addAnnotatedFields---->通过反射获取Monitor注解标示的方法与字段
+## MetricObserver---->指标观察者
+- FileMetricObserver---->BaseMetricObserver---->MetricObserver
+  - MetricObserver提供获取更新的指标
+  - BaseMetricObserver提供基本的成功数/失败数监控
+  - FileMetricObserver将指标写入文件
+## PollScheduler/PollRunnable---->轮询/调度支持
+- PollScheduler---->addPoller---->提供轮询任务的调度与添加
+- PollRunnable---->任务运行,利用MetricPoller和MetricFilter过滤出需要的指标,通知给MetricObserver
+- MonitorRegistryMetricPoller---->MetricPoller---->获取指标值
+  - JvmMetricPoller---->MetricPoller
+- MetricFilter---->指标的过滤器
+## JMX的相关支持
+- DefaultObjectNameMapper---->ObjectNameMapper---->提供ObjectName的名称支持
+- MonitorMBean---->DynamicMBean---->导出Monitor作为MBean到jmx中
+## 其他支持
+- Metric---->特定时间点的指标值
+- MonitorConfig---->监控的配置信息
+- Tag---->监控指标的key/value对
+  - BasicTag---->Tag
+  - DataSourceType---->Tag---->GAUGE/COUNTER/RATE/NORMALIZED/INFORMATIONAL
+## 测试
+- com.netflix.servo.example.Main#main
