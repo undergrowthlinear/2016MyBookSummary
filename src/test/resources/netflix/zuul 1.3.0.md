@@ -1,0 +1,31 @@
+# zuul 1.3.0 学习笔记
+## 概述
+- 提供servlet/filter/listener级别的请求过滤、请求路由、请求响应支持
+- 参考
+      - http://blog.didispace.com/spring-cloud-source-zuul/
+      - http://www.scienjus.com/api-gateway-and-netflix-zuul/
+      - http://zhxing.iteye.com/blog/399668
+## IZuulFilter---->zuul过滤器
+- IZuulFilter决定是否运行过滤器以及过滤器运行机制支持
+- ZuulFilter提供子类覆盖过滤器类型/顺序/执行过滤器方式机制
+- pre
+    - PreDecoration---->ZuulFilter---->IZuulFilter(PreDecoration提供头信息支持)
+    - DebugRequest---->ZuulFilter---->IZuulFilter(DebugRequest调试信息支持)
+- route
+    - ZuulHostRequest---->ZuulFilter---->IZuulFilter(ZuulHostRequest依靠httpclient封装成HostCommand,完成请求的执行)
+- post
+    - SendResponseFilter---->ZuulFilter---->IZuulFilter(SendResponseFilter添加响应头,回写响应输出流)
+- error
+    - ErrorResponse---->ZuulFilter---->IZuulFilter(ErrorResponse写入相应的异常信息到responseBody)
+## ZuulRunner/FilterProcessor---->zuul运行器
+- ZuulRunner负责初始化request/response到RequestContext,提供pre/post/route/error过滤器运行支持
+- FilterProcessor过滤器执行的支持类,ZuulRunner委托相应执行方法给此
+## ZuulServlet/ZuulServletFilter---->启动器
+- ZuulServlet提供servlet级别的过滤器执行顺序支持,正常pre-route-post,异常pre-error-post
+- ZuulServletFilter提供filter级别的过滤器执行顺序支持,正常pre-route-post,异常pre-error-post
+## 其他支持
+- RequestContext---->请求上下文支持,利用线程ThreadLocal创建key-value值对
+- FilterLoader---->过滤器加载器,以key-list方式存放已有的过滤器
+- FilterFileManager---->提供获取过滤器支持
+## 测试
+- com.netflix.zuul.StartServer
