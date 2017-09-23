@@ -1,0 +1,45 @@
+# ehcache 3.3.0 学习笔记
+## 概述
+- 参考
+      - http://blog.csdn.net/l271640625/article/details/20528573
+      - http://www.blogjava.net/hao446tian/archive/2011/05/24/350930.html
+      - http://raychase.iteye.com/blog/1545906
+## CacheManager---->管理缓存与服务,负责init/close缓存与服务
+- EhcacheManager---->PersistentCacheManager---->CacheManager
+- EhcacheManager---->InternalCacheManager---->CacheManager
+    - CacheManager---->提供Cache的创建/移除/获取,启动与停止,以及状态的变迁
+    - InternalCacheManager---->提供服务相关的监听支持
+    - PersistentCacheManager---->提供相关持久化支持
+    - EhcacheManager---->实现类,提供init的初始化
+      - 创建时,调用resolveServices使用ServiceLoader获取配置在meta-inf/services下的服务
+      - 用于启动serviceLocator加载的服务
+      - 根据CacheConfiguration创建cache,初始化cache
+## Cache---->定义key-value的增删改查
+- Ehcache---->InternalCache---->UserManagedCache---->Cache
+    - Cache---->提供put/remove/replace/get支持
+    - UserManagedCache---->提供init与close支持
+    - Ehcache---->cache的默认实现,委托给Store完成CRUD
+## Store----->缓存存储的后端支持,负责缓存的添加、过期、移除、事件分发,以及对value的进一步封装
+- OnHeapStore---->Store
+    - OnHeapStore---->jvm堆缓存支持,利用jvm的堆空间进行缓存
+- CopiedOnHeapValueHolder---->OnHeapValueHolder---->AbstractValueHolder---->Store.ValueHolder---->ValueSupplier
+    - Store.ValueHolder---->提供value相关的元信息支持,例如creationTime/lastAccessTime/expirationTime/hits等等
+- SimpleBackend---->Backend---->ehcache底层支持
+    - 用ConcurrentHashMap对Store进行支持
+## CacheConfiguration---->提供缓存的key类型/value类型/移除判断/过期/资源池配置支持
+- BaseCacheConfiguration---->CacheConfiguration
+- EvictionAdvisor---->用于判断该value是否应该移除,在store的put之后,调用evict时会进行判断
+- BaseExpiry---->Expiry---->
+- ResourcePoolsImpl---->ResourcePools---->资源池支持
+    - ResourcePoolsImpl实现使用map以ResourceType为key存放各种ResourcePool
+## ServiceProvider---->用于加载配置在meta-inf/services下的服务
+- ServiceLocator---->ServiceProvider
+    - org.ehcache.core.internal.service.ServiceLocator.DependencySet#build
+    - 加载配置的服务工厂,创建相关的服务提供者,供后续使用
+## Service---->用于支撑缓存的服务
+- OnHeapStore.Provider---->Store.Provider---->Service
+    - Service---->提供start/start支持
+    - Store.Provider---->提供createStore/releaseStore/initStore相关支持
+    - OnHeapStore.Provider---->在jvm堆上根据配置信息创建相应的store
+## 测试
+- https://github.com/ehcache/ehcache3-samples.git
