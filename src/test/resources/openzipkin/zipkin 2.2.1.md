@@ -1,0 +1,39 @@
+# zipkin 2.2.1 学习笔记
+## 概述
+- 参考
+  - http://blog.csdn.net/liaokailin/article/details/52077620
+  - https://github.com/liaokailin/zipkin
+  - http://manzhizhen.iteye.com/blog/2348175
+  - https://github.com/openzipkin/zipkin
+  - http://blog.csdn.net/alex19881006/article/details/24404209
+  - http://www.cnblogs.com/java-zhao/p/5838819.html
+## Span---->追踪的基本单元
+- trace_id---->一个完整的rpc调用链拥有同一个trace_id
+- /name/id/---->一次rpc调用就产生一个span_id
+- parent_id/---->rpc的父级
+- Annotation/BinaryAnnotation/---->记录rpc服务本身以及业务的信息
+- timestamp/duration---->一次rpc耗用时间
+## Brave---->zipkin的传输基础
+- 拥有ServerTracer/ClientTracer/ServerRequestInterceptor/ServerResponseInterceptor/ClientRequestInterceptor/ClientResponseInterceptor等
+- ServerTracer---->用于服务端接收请求(setServerReceived)/确认请求(setServerSend)---->sr/ss
+- ClientTracer---->用于客户端发送请求(setClientSent)/接收响应(setClientReceived)---->cs/cr
+- ServerRequestInterceptor/ServerResponseInterceptor---->用于服务端,拦截请求/响应,记录请求信息等
+- ClientRequestInterceptor/ClientResponseInterceptor---->用于客户端,拦截请求/响应，记录信息等
+## SpanCollector---->span收集器,用于异步将拦截到的追踪信息,提交给zipkin服务器
+- HttpSpanCollector---->AbstractSpanCollector---->FlushingSpanCollector---->SpanCollector
+    - SpanCollector---->提供收集span功能
+    - FlushingSpanCollector---->提供异步刷新与队列存储支持
+      - com.github.kristofa.brave.FlushingSpanCollector.Flusher#run
+      - flush
+    - AbstractSpanCollector---->提供编解码支持,将span按照编解码转换为字节码
+      - reportSpans
+    - HttpSpanCollector---->以POST方法application/json形式提交转换的span字节码信息
+      - sendSpans
+## BraveServletFilter---->服务端过滤器,过滤请求与响应,发送sr (server received) and ss (server sent)
+- 委托给ServerRequestInterceptor.handle进行请求的处理,构建新的TraceData信息
+- 委托给ServerResponseInterceptor#handle进行响应的处理,再进行ServerTracer#setServerSend时候,添加span到spanCollector
+## BraveOkHttpRequestResponseInterceptor---->客户端拦截器,拦截请求/响应,cs/cr
+- 委托给ClientRequestInterceptor.handle进行请求的拦截,向request中添加Sampled/TraceId/SpanId/ParentSpanId信息头
+- 委托给ClientResponseInterceptor#handle进行响应的拦截,再进行clientTracer.setClientReceived时候,添加span到spanCollector
+## 测试
+- https://github.com/liaokailin/zipkin
