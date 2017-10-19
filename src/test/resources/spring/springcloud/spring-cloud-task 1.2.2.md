@@ -1,0 +1,21 @@
+# spring-cloud-task 1.2.2 学习笔记
+## 概述
+- 参考
+    - https://github.com/spring-cloud/spring-cloud-task
+    - https://github.com/spring-cloud/spring-cloud-task/tree/master/spring-cloud-task-samples
+    - https://www.huangyunkun.com/2016/01/30/spring-cloud-task/
+## EnableTask---->引入SimpleTaskConfiguration配置器
+- 注入TaskConfigurer/TaskExplorer/TaskNameResolver/PlatformTransactionManager/TaskLifecycleListener/TaskRepositoryInitializer等初始化bean
+### DefaultTaskConfigurer---->TaskConfigurer---->任务配置器
+- 存储TaskRepository/TaskExplorer/PlatformTransactionManager/TaskExecutionDaoFactoryBean/DataSource等信息
+### SimpleTaskRepository---->TaskRepository---->任务仓库,创建/更新任务执行状态
+### SimpleTaskExplorer---->TaskExplorer---->任务浏览器,查询任务执行信息
+### TaskExecution---->任务的执行情况
+- executionId---->任务执行的唯一ID
+- startTime/endTime/exitCode/arguments等
+### TaskRepositoryInitializer---->利用配置的数据源进行脚本的初始化
+- 脚本位置---->org/springframework/cloud/task/schema-@@platform@@.sql
+### TaskLifecycleListener----->任务的生命周期监听
+- 利用spring的生命周期,记录应用的运行细节,以任务的开始/任务的结束进行记录
+## 测试
+- 示例代码可参看位于--https://github.com/spring-cloud/spring-cloud-task/tree/master/spring-cloud-task-samples
