@@ -1,0 +1,33 @@
+# spring-cloud-stream 1.3.0(Ditmars.RELEASE)之binder-rabbit 学习笔记
+## 概述
+- 参考
+    - https://docs.spring.io/spring-cloud-stream/docs/current-SNAPSHOT/reference/htmlsingle/
+    - https://docs.spring.io/spring-cloud-stream/docs/Ditmars.RELEASE/reference/htmlsingle/#_samples
+    - https://github.com/spring-cloud/spring-cloud-stream
+    - https://github.com/spring-cloud/spring-cloud-stream-binder-rabbit
+    - https://github.com/spring-cloud/spring-cloud-stream-samples
+    - http://www.cnblogs.com/tinmh/p/6026726.html
+    - http://www.360doc.com/content/14/0608/22/834950_384932402.shtml
+## EnableBinding---->开启开关,引入一系列的配置类,stream-core层支持
+### BindingServiceConfiguration---->配置stream-core层
+- 引入StreamListenerAnnotationBeanPostProcessor---->用于解析StreamListener注解
+- 引入BindingService---->核心支持类,通过底层的实现Binder(例如:RabbitMessageChannelBinder)进行Consumer/Producer的绑定
+- 引入OutputBindingLifecycle---->利用BindingService绑定可Bindable的输出队列(即绑定生产者)
+- 引入InputBindingLifecycle---->利用BindingService绑定可Bindable的输入队列(即绑定消费者)
+- 引入SubscribableChannelBindingTargetFactory(BindingTargetFactory)---->创建输入/输出的目标,用于BindingService进行绑定
+### BindingBeansRegistrar---->用于解析EnableBinding上标记的value以及使用的Input/Output注解信息
+- BindingBeanDefinitionRegistryUtils#registerBindingTargetsQualifiedBeanDefinitions
+  - 如果使用Input/Output注解标记的是接口,则使用BindableProxyFactory创建Bindable标示,放入BeanDefinitionRegistry
+  - 如果不是接口,则使用Bindings注解进行标记,放入BeanDefinitionRegistry
+### BinderFactoryConfiguration---->注入BinderFactory,获取实现类的Binder,由BindingService委托调用
+- DefaultBinderFactory---->BinderFactory
+## RabbitServiceAutoConfiguration---->rabbit实现层支持(依赖spring-cloud-stream-binder-rabbit即可)
+- RabbitAutoConfiguration---->非cloud环境,引入RabbitAutoConfiguration,用于与rabbit进行交互
+  - CachingConnectionFactory---->ConnectionFactory---->连接rabbit的连接工厂
+  - RabbitTemplate---->rabbit的操作类,send/receive消息
+  - AmqpAdmin---->管理操作类,用于创建、删除、管理Exchange/Queue/Binding
+- RabbitMessageChannelBinderConfiguration
+  - RabbitMessageChannelBinder---->rabbit核心实现类支持,Binger实现类,用于对接stream-core的BindingService
+  - RabbitExchangeQueueProvisioner---->rabbit实现ProvisioningProvider,用于实际产生交换器/队列/绑定操作
+## 测试
+-
