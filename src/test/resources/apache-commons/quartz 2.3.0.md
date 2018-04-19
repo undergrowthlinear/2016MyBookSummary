@@ -1,0 +1,57 @@
+# quartz 2.3.0 学习笔记
+## 概述
+- 参考
+  - https://www.ibm.com/developerworks/cn/opensource/os-cn-quartz/
+  - https://github.com/quartz-scheduler/quartz
+  - https://tech.meituan.com/mt-crm-quartz.html
+  - http://www.quartz-scheduler.org/documentation/quartz-2.2.x/tutorials/tutorial-lesson-02.html
+## Scheduler---->调度器,负责维护JobDeatil与Trigger关系,根据Trigger调度Job
+- StdScheduler---->Scheduler
+    - Scheduler---->提供调度器的start/standby/shutdown,以JobKey标示的任务的添加/删除/触发
+      - scheduleJob提供JobDetail与Trigger的绑定机制
+      - start进行调度器初始化,实际上委托给QuartzScheduler进行start
+    - StdScheduler为QuartzScheduler的代理类,相关调度器操作委托给QuartzScheduler进行
+- QuartzScheduler---->RemotableQuartzScheduler---->Remote
+    - QuartzScheduler为quartz的核心类
+      - QuartzScheduler.start是通知schedThread.togglePause(false)开启任务调度
+- QuartzSchedulerThread---->quarzt任务调度执行线程,负责
+    - qsRsrcs.getJobStore().acquireNextTriggers---->默认获取30s内的将要执行的触发器
+    - qsRsrcs.getJobStore().triggersFired---->修改触发器状态为STATE_ACQUIRED
+    - qsRsrcs.getThreadPool().runInThread(shell)---->在JobRunShell中执行JobDetail的业务逻辑
+    - qs.notifyJobStoreJobComplete(trigger, jobDetail, instCode)---->通过触发器机制,修改job与触发器状态
+- StdSchedulerFactory---->SchedulerFactory
+- SchedulerFactory提供创建Scheduler工厂
+## JobDetail/Job---->提供job信息的描述与执行机制
+- JobDetailImpl---->JobDetail
+    - JobDetailImpl记录job实例的name/group/description/jobClass/key等属性
+- Job---->定义业务需要实现execute方法
+- JobRunShell/JobRunShellFactory
+    - JobRunShell提供执行job任务开始/完成通知操作,提供安全的环境,捕获所有异常(Throwable)的机制,转换为JobExecutionException
+## Trigger---->用于定义Job合适/怎么被调度
+- SimpleTriggerImpl---->SimpleTrigger---->Trigger
+- SimpleTriggerImpl---->CoreTrigger---->Trigger
+- SimpleTriggerImpl---->AbstractTrigger---->OperableTrigger---->MutableTrigger---->Trigger
+    - Trigger定义触发器的状态/执行情况/相关联的JobKey/getCalendarName/getNextFireTime/getPreviousFireTime
+    - MutableTrigger提供修改TriggerKey/JobKey/calendarName/JobDataMap/startTime/endTime机制
+    - OperableTrigger提供触发triggered任务机制,标记任务执行完成executionComplete,修改setNextFireTime/setPreviousFireTime
+    - AbstractTrigger所有触发器的抽象实现,提供默认实现
+## JobStore---->用于定义Job与Trigger如何进行存储
+- JobStore---->定义了QuartzScheduler如何存储Job/Trigger
+    - storeJobAndTrigger---->存储指定的JobDetail与Trigger,同时关联他们
+    - acquireNextTriggers---->获取可执行的OperableTrigger列表
+    - triggersFired---->修改触发器状态,保持执行状态
+    - releaseAcquiredTrigger---->执行完成后,释放获取的触发器
+    - triggeredJobComplete---->通知触发器任务完成
+- RAMJobStore---->JobStore
+    - RAMJobStore,在内存中支持上述关系,利用相关的jobsByKey/triggersByKey/jobsByGroup/triggersByGroup/timeTriggers支持
+- JobStoreTX---->JobStoreSupport---->JobStore
+    - 利用JDBC-based完成上述关系,利用StdRowLockSemaphore行锁完成集群的环境的任务排斥
+    - executeInNonManagedTXLock中利用getLockHandler().obtainLock行锁完成排斥动作
+## ListenerManager/SchedulerListener/JobListener/TriggerListener---->调度器/任务/触发器监听支持
+- ListenerManagerImpl---->ListenerManager
+- JobRunShell---->SchedulerListenerSupport---->SchedulerListener
+## 其他支持
+- SimpleThreadPool---->ThreadPool---->提供线程池支持
+- JobKey---->Key---->提供唯一标示JobDetail
+- TriggerKey---->Key---->提供唯一标示Trigger
+## 测试
