@@ -4,6 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.9.RELEASE</version>
+  </parent>
+
   <groupId>com.undergrowth</groupId>
   <artifactId>mybooksummary</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -12,25 +18,38 @@
   <name>mybooksummary</name>
   <description>Demo project for Spring Boot</description>
 
-  <parent>
+ <!-- <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.4.3.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
+    <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
+  </parent>-->
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
     <lucene.version>3.5.0</lucene.version>
+    <curator.version>4.0.0</curator.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Dalston.SR4</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
-    <dependency>
+    <!--<dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -57,17 +76,17 @@
     <dependency>
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-framework</artifactId>
-      <version>2.4.2</version>
+      <version>${curator.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-recipes</artifactId>
-      <version>2.4.2</version>
+      <version>${curator.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-test</artifactId>
-      <version>2.4.2</version>
+      <version>${curator.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
@@ -97,9 +116,12 @@
       <version>2.0</version>
     </dependency>
     <dependency>
-      <groupId>org.wltea</groupId>
+     <!-- <groupId>org.wltea</groupId>
       <artifactId>ikanalyzer</artifactId>
-      <version>2012.6</version>
+      <version>2012.6</version>-->
+      <groupId>org.wltea.ik-analyzer</groupId>
+      <artifactId>ik-analyzer</artifactId>
+      <version>3.2.8</version>
     </dependency>
     <dependency>
       <groupId>jakarta-regexp</groupId>
@@ -190,6 +212,11 @@
       <groupId>com.sun.jdmk</groupId>
       <artifactId>jmxtools</artifactId>
       <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-test</artifactId>
+      <version>4.0.0</version>
     </dependency>
   </dependencies>
 
