@@ -116,12 +116,12 @@
       <version>2.0</version>
     </dependency>
     <dependency>
-     <!-- <groupId>org.wltea</groupId>
+      <groupId>org.wltea</groupId>
       <artifactId>ikanalyzer</artifactId>
-      <version>2012.6</version>-->
-      <groupId>org.wltea.ik-analyzer</groupId>
+      <version>2012.6</version>
+      <!--<groupId>org.wltea.ik-analyzer</groupId>
       <artifactId>ik-analyzer</artifactId>
-      <version>3.2.8</version>
+      <version>3.2.8</version>-->
     </dependency>
     <dependency>
       <groupId>jakarta-regexp</groupId>
@@ -223,6 +223,17 @@
       <artifactId>guava</artifactId>
       <version>23.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <dependency>
+          <groupId>io.reactivex.rxjava2</groupId>
+          <artifactId>rxjava</artifactId>
+          <version>2.1.6</version>
+      </dependency>
   </dependencies>
 
   <build>
