@@ -1,0 +1,106 @@
+# elasticsearch 5.2.2 学习笔记之源码阅读1-构建源码与核心模块/类
+## 概述
+- 参考
+    - https://github.com/elastic/elasticsearch/tree/v5.2.2
+    - https://www.jianshu.com/p/a22492d40fd1----可按照此操作,只需注意gradle版本即可
+    - https://www.cnblogs.com/zziawanblog/p/6493212.html----版本较低(有部分参考意义)
+## 编译源码,可能踩的坑
+- 编译的时候一定要去https://github.com/elastic/elasticsearch/tree/v5.2.2 查看对应版本的gradle
+    - eg:5.2.2对应的是You’ll need to have version 2.13 of Gradle installed,安装2.13即可编译成功,高版本的gradle会有各种问题
+## 核心服务类
+### 模块设计
+- 使用guice进行依赖管理,分模块进行管理依赖
+- Module
+        - AbstractModule
+            - NodeModule
+            - ActionModule
+              - elasticsearch的每一个功能都对应三个个Action,eg:Indexaction
+                和TransportIndexAction,RestIndexAction 
+            - RepositoriesModule
+                - for Snapshot/Restore    
+            - GatewayModule
+            - IndicesModule
+                - shared by indices on each node 
+            - ClusterModule
+                - affect the entire cluster 
+    - ScriptModule
+    - SearchModule
+        - search time like queries, aggregations, and suggesters
+### 查询设计
+- QueryBuilder
+    - AbstractQueryBuilder
+        - QueryStringQueryBuilder 
+    - MultiTermQueryBuilder
+    - SpanQueryBuilder
+### 核心接口与类
+- 使用AbstractComponent和AbstractLifecycleComponent管理核心组件的配置与生命周期
+- Releasable(Closeable)
+    - LifecycleComponent(start/stop/addLifecycleListener)
+        - HttpServerTransport
+            - Netty4HttpServerTransport 
+        - Discovery
+        - Repository
+        - Transport
+    - AbstractComponent
+        - PluginsService
+        - NetworkService
+        - JvmService
+        - FaultDetection
+            - 确保节点存活 
+            - MasterFaultDetection/NodesFaultDetection 
+        - NodeJoinController
+            - ElectMasterService#electMaster(clusterStateVersion降序排列后master优于other nodes后nodeId)
+        - TransportAction
+        - TaskManager
+            - track of running tasks on the nodes 
+        - ElasticsearchClient/AbstractClient
+            - Client/ClusterAdminClient/IndicesAdminClient 
+            - TransportClient
+            - NodeClient
+                - actions on the local node 
+        - AbstractLifecycleComponent 
+            - ClusterService
+            - SearchService
+            - HttpServer
+                - serve http requests, backed by rest handlers 
+                - 委托给RestController#dispatchRequest处理
+            - RoutingService
+            - GatewayService
+            - MonitorService
+            - TribeService
+            - NodeConnectionsService
+                - for connecting to nodes once they are added to the cluster state 
+            - CircuitBreakerService
+            - ZenDiscovery
+            - HttpServerTransport/Netty4HttpServerTransport
+            - TransportService
+                - 利用Transport进行通信
+            - TcpTransport(Transport)
+                - 用于节点/集群间相互通信 
+                - Netty4Transport(委托netty创建server/client)
+                - 先写19字节TcpHeader头/channel.writeAndFlush
+    - IndexComponent
+        - AbstractIndexComponent
+            - IndexService
+            - IndexStore
+            - IndexAnalyzers
+            - IndexQueryCache
+            - IndexCache
+            - SimilarityService
+            - MapperService
+            - AbstractIndexAnalyzerProvider
+            - AbstractCharFilterFactory
+            - AbstractTokenFilterFactory
+            - AbstractTokenizerFactory 
+### Elasticsearch启动过程分析
+- org.elasticsearch.bootstrap.Elasticsearch#main
+    - 委托给org.elasticsearch.bootstrap.Bootstrap#init进行初始化
+        - 进行必要的环境、版本等检查,并进行初始化,创建Node
+            - 创建NodeEnvironment环境信息
+            - 创建PluginsService/ClusterService/等,加载各种模块SearchModule/ActionModule等
+        - 启动node(org.elasticsearch.node.Node#start)
+- 后续待更新
+    - TransportService(利用Transport进行数据传输,使用netty作为数据传输层,后面会详细讲解数据传输)
+    - HttpServerTransport(使用netty接收用户请求,转发给HttpServer#dispatchRequest,进而利用RestController的RestHandler处理相应的用户请求,后面也会详细讲解)
+    - 插件机制/搜索流程/索引流程也都会讲解
+        
