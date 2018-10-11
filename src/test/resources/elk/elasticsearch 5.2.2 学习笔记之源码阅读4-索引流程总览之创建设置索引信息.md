@@ -127,7 +127,7 @@
     - 分别来看CreateIndexAction/RestCreateIndexAction/TransportCreateIndexAction三者间的消息扭转
         - RestCreateIndexAction#prepareRequest解析request参数,构造CreateIndexRequest请求
         - TransportCreateIndexAction的父类TransportMasterNodeAction#doExecute创建AsyncSingleAction进行一些列的前置操作,调用TransportMasterNodeAction#masterOperation回调子类TransportCreateIndexAction#masterOperation
-        - 调用MetaDataCreateIndexService#createIndex进行索引创建流程,涉及到进行参数校验validate,解析Alias,查找IndexTemplateMetaData,mappings等等,从而创建IndexMetaData,存放在MetaData,更新ClusterState,完成索引创建,实际上这里是没有进行Lucene层的操作,在讲解添加索引类型数据时候会涉及到lucene的操作
+        - 调用MetaDataCreateIndexService#createIndex进行索引创建流程,涉及到进行参数校验validate,解析Alias,查找IndexTemplateMetaData,mappings等等,从而创建IndexMetaData,存放在MetaData,更新ClusterState,完成索引创建,实际上这里是没有进行Lucene层的操作,在讲解添加索引类型数据时候会涉及到lucene的操作,但是这里是创建了UpdateTask,进行状态的发布publishAndApplyChanges,使其他模块进行下一步操作,例如状态保存(GatewayMetaState#applyClusterState)
     
 
 
