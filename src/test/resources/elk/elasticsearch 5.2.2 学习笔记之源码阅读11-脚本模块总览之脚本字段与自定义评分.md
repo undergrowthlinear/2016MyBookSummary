@@ -11,9 +11,11 @@
 - 排序
 - 字段的不同访问方式
     - doc-values
-        - 最高效,使用doc['field_name']进行访问,默认不包括可分析的text字段
+        - 最高效/使用doc['field_name']进行访问/默认不包括可分析的text字段
     - stored fields 
+        - 只使用"store": true的字段/ 使用_fields['field_name'].values
     - _source field
+        - 使用_source.field_name方式访问/可访问所有字段/性能开销较大
 ### 核心接口与类
 - 使用AbstractComponent和AbstractLifecycleComponent管理核心组件的配置与生命周期
     - AbstractComponent
