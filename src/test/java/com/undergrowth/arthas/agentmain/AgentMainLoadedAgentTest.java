@@ -1,4 +1,4 @@
-package com.undergrowth.arthas;
+package com.undergrowth.arthas.agentmain;
 
 
 import java.lang.instrument.Instrumentation;
