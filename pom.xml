@@ -31,6 +31,7 @@
     <java.version>1.8</java.version>
     <lucene.version>3.5.0</lucene.version>
     <curator.version>4.0.0</curator.version>
+    <aspectj.version>1.9.1</aspectj.version>
   </properties>
 
   <dependencyManagement>
@@ -72,6 +73,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.curator</groupId>
@@ -252,6 +257,17 @@
       <artifactId>sentinel-transport-simple-http</artifactId>
       <version>1.3.0-GA</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
   </dependencies>
 
 
@@ -262,6 +278,20 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <!--&lt;!&ndash; AspectJ 编译插件 &ndash;&gt;
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>       &lt;!&ndash; use this goal to weave all your main classes &ndash;&gt;
+              <goal>test-compile</goal>  &lt;!&ndash; use this goal to weave all your test classes &ndash;&gt;
+            </goals>
+          </execution>
+        </executions>
+      </plugin>-->
     </plugins>
   </build>
 

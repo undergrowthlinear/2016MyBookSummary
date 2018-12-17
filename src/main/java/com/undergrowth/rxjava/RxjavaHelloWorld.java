@@ -17,10 +17,10 @@ import java.util.List;
 
 public class RxjavaHelloWorld {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         System.out.println("主线程---->" + Thread.currentThread().getName());
         // create Observable
-        createObservable();
+      //  createObservable();
         // helloStr
         // helloStr();
         // parallel
@@ -36,9 +36,9 @@ public class RxjavaHelloWorld {
         // assemblyFlowable();
         //
         // runtime();
-    }
+    }*/
 
-    private static void createObservable() {
+   /* private static void createObservable() {
         Observable<String> o = Observable.just("Hello World");
         //Observable.create()
     }
@@ -142,6 +142,6 @@ public class RxjavaHelloWorld {
         public void accept(Object o) throws Exception {
             System.out.println("线程---->" + Thread.currentThread().getName() + "\t" + o);
         }
-    }
+    }*/
 
 }
