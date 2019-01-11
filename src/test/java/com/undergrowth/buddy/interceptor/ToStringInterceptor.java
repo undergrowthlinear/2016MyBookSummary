@@ -1,4 +1,4 @@
-package com.undergrowth.buddy;
+package com.undergrowth.buddy.interceptor;
 
 import javax.ws.rs.core.Context;
 
