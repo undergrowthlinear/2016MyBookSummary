@@ -81,7 +81,7 @@ static String user = "ADMIN";
         System.out.println("pass security check method:" + method.getName());
     }
 ```
-- 
+- agent中通过对Secured注解的拦截,将其委托给SecurityInterceptor拦截器对象,对注解上的参数进行判断,进而通过抛出异常控制流程的扭转,更进一步与业务结合的话,需要加上类似ThreadLocal ContextSecurity 机制进行融合
 - 2.添加maven-shade-plugin插件,添加premain
 - 3.com.undergrowth.secure.SecurityAgentMain#main 启动 可通过是否添加 -javaagent参数 查看代理机制有无生效
 ```
