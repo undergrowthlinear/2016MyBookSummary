@@ -1,8 +1,8 @@
-# alibaba sentinel 1.3.0-GA 简述及原理
+# alibaba alibaba.sentinel 1.3.0-GA 简述及原理
 ## 概述
 - 参考
 - https://github.com/alibaba/Sentinel/wiki/%E4%BB%8B%E7%BB%8D  ----官网
-- https://github.com/sentinel-group/sentinel-awesome           ----其他人文档
+- https://github.com/alibaba.sentinel-group/alibaba.sentinel-awesome           ----其他人文档
 - https://github.com/spring-cloud-incubator/spring-cloud-alibaba/blob/master/Roadmap-zh.md alibaba的spring分支相关蓝图
 - https://github.com/spring-cloud-incubator/spring-cloud-alibaba alibaba的spring cloud分支
 - 简述
@@ -52,8 +52,8 @@ ProcessorSlotChain chain = new DefaultProcessorSlotChain();
             }
 ```
 - FlowSlot(根据相关规则和node统计信息,判断有没有超过流量阈值)
-    - com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager.checkFlow
-    - com.alibaba.csp.sentinel.slots.block.flow.FlowRule.passCheck
+    - com.alibaba.csp.alibaba.sentinel.slots.block.flow.FlowRuleManager.checkFlow
+    - com.alibaba.csp.alibaba.sentinel.slots.block.flow.FlowRule.passCheck
     - Node selectedNode = selectNodeByRequesterAndStrategy(origin, context, node);----重要的一行,根据规则的origin、strategy是返回DefaultNode级别还是ClusterNode级别的统计信息,进而进行阈值的判断
 #### Node(资源的统计信息)
 - StatisticNode/DefaultNode/ClusterNode/EntranceNode
@@ -87,10 +87,10 @@ ProcessorSlotChain chain = new DefaultProcessorSlotChain();
 ```
 - 如上,创建context/entry,即走上面分析的slot和node逻辑,未违反规则,则执行目标方法,如果违反,则抛出异常,进行BlockException/DegradeException的相应回调blockHandler/fallback
 #### 示例
-- 拿源码的示例,com.alibaba.csp.sentinel.demo.flow.FlowQpsDemo#main进行举例吧
+- 拿源码的示例,com.alibaba.csp.alibaba.sentinel.demo.flow.FlowQpsDemo#main进行举例吧
     - 调整threadCount=1,便于调试
-    - com.alibaba.csp.sentinel.SphU.entry
-        - com.alibaba.csp.sentinel.CtSph.entry
+    - com.alibaba.csp.alibaba.sentinel.SphU.entry
+        - com.alibaba.csp.alibaba.sentinel.CtSph.entry
             - context = MyContextUtil.myEnter  ----创建Context,创建sentinel_default_context的EntranceNode为基节点
             - chain = lookProcessChain          ----即是上面的slot链式
             - chain.entry(context, resourceWrapper, null, count, args) ---- 链式的处理,分别调用链式里面的slot进行上面分析的处理

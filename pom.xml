@@ -249,12 +249,12 @@
 
     <dependency>
       <groupId>com.alibaba.csp</groupId>
-      <artifactId>sentinel-core</artifactId>
+      <artifactId>alibaba.sentinel-core</artifactId>
       <version>1.3.0-GA</version>
     </dependency>
     <dependency>
       <groupId>com.alibaba.csp</groupId>
-      <artifactId>sentinel-transport-simple-http</artifactId>
+      <artifactId>alibaba.sentinel-transport-simple-http</artifactId>
       <version>1.3.0-GA</version>
     </dependency>
 
