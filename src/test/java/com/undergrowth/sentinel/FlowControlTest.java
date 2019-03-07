@@ -1,3 +1,6 @@
+/**
+ *
+
 package com.undergrowth.sentinel;
 
 import com.alibaba.csp.sentinel.Entry;
@@ -9,11 +12,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author zhangwu
- * @version 1.0.0
- * @date 2018-11-27-10:50
- */
+
 public class FlowControlTest {
     public static void main(String[] args) {
         initFlowRules();
@@ -43,3 +42,4 @@ public class FlowControlTest {
         FlowRuleManager.loadRules(rules);
     }
 }
+ */
