@@ -1,3 +1,3 @@
 public @interface TestCases {
-   TestCase[] value();
+    TestCase[] value();
 }

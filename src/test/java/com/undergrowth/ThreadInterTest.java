@@ -12,9 +12,9 @@ import org.junit.Test;
 public class ThreadInterTest {
 
     @Test
-    public void interTest(){
+    public void interTest() {
         Thread.currentThread().interrupt();
-        throw new RuntimeException("test "+Thread.currentThread().getName());
+        throw new RuntimeException("test " + Thread.currentThread().getName());
     }
 
 

@@ -12,18 +12,18 @@ import org.junit.rules.Timeout;
  */
 public class HasGlobalLongTimeoutTest {
 
-  @Rule
-  public Timeout globalTimeout = new Timeout(20);
+    @Rule
+    public Timeout globalTimeout = new Timeout(20);
 
-  @Test
-  public void run1() throws InterruptedException {
-    Thread.sleep(100);
-  }
-
-  @Test
-  public void infiniteLoop() {
-    while (true) {
+    @Test
+    public void run1() throws InterruptedException {
+        Thread.sleep(100);
     }
-  }
+
+    @Test
+    public void infiniteLoop() {
+        while (true) {
+        }
+    }
 
 }

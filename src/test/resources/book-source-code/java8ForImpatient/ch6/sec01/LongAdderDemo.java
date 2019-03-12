@@ -1,87 +1,96 @@
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.*;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 public class LongAdderDemo {
-   private static void await(CyclicBarrier barrier) {
-      try {
-         barrier.await();
-      } catch (InterruptedException | BrokenBarrierException ex) {
-         ex.printStackTrace();
-         // Won't happen in this application
-      }
-   }
+    private static void await(CyclicBarrier barrier) {
+        try {
+            barrier.await();
+        } catch (InterruptedException | BrokenBarrierException ex) {
+            ex.printStackTrace();
+            // Won't happen in this application
+        }
+    }
 
-   public static double run(int nthreads, int iterations, Runnable action) {      
-      Thread[] threads = new Thread[nthreads];      
-      CyclicBarrier barrier = new CyclicBarrier(nthreads + 1);
+    public static double run(int nthreads, int iterations, Runnable action) {
+        Thread[] threads = new Thread[nthreads];
+        CyclicBarrier barrier = new CyclicBarrier(nthreads + 1);
 
-      for (int t = 0; t < nthreads; t++) {
-         threads[t] = new Thread(() -> {
-               await(barrier);
-               for (int i = 0;  i < iterations; i++) {
-                  action.run();
-               }
-               await(barrier);
+        for (int t = 0; t < nthreads; t++) {
+            threads[t] = new Thread(() -> {
+                await(barrier);
+                for (int i = 0; i < iterations; i++) {
+                    action.run();
+                }
+                await(barrier);
             });
-         threads[t].start();
-      }
-      await(barrier);
-      long start = System.nanoTime();
-      await(barrier);
-      long end = System.nanoTime();
-      return (end - start) * 1E-9;
-   }
+            threads[t].start();
+        }
+        await(barrier);
+        long start = System.nanoTime();
+        await(barrier);
+        long end = System.nanoTime();
+        return (end - start) * 1E-9;
+    }
 
-   public static void main(String[] args) {
-      final int THREADS = 100;
-      final int ITERATIONS = 1000000;      
+    public static void main(String[] args) {
+        final int THREADS = 100;
+        final int ITERATIONS = 1000000;
 
-      System.out.println("Synchronized");
-      
-      class Counter {
-         private long count;
-         synchronized void increment() { count++; }
-         synchronized long get() { return count; }
-      };
+        System.out.println("Synchronized");
 
-      Counter counter = new Counter();
+        class Counter {
+            private long count;
 
-      double elapsedTime = run(THREADS, ITERATIONS, () -> {
+            synchronized void increment() {
+                count++;
+            }
+
+            synchronized long get() {
+                return count;
+            }
+        }
+        ;
+
+        Counter counter = new Counter();
+
+        double elapsedTime = run(THREADS, ITERATIONS, () -> {
             counter.increment();
-         });
-         
-      System.out.println(counter.get());
-      System.out.println(elapsedTime + " seconds");
+        });
 
-      System.out.println("AtomicLong");
+        System.out.println(counter.get());
+        System.out.println(elapsedTime + " seconds");
 
-      AtomicLong atomic = new AtomicLong();
-      elapsedTime = run(THREADS, ITERATIONS, () -> {
+        System.out.println("AtomicLong");
+
+        AtomicLong atomic = new AtomicLong();
+        elapsedTime = run(THREADS, ITERATIONS, () -> {
             atomic.incrementAndGet();
-         });
-         
-      System.out.println(atomic.get());
-      System.out.println(elapsedTime + " seconds");
+        });
 
-      System.out.println("LongAdder");
+        System.out.println(atomic.get());
+        System.out.println(elapsedTime + " seconds");
 
-      LongAdder adder = new LongAdder();
-      elapsedTime = run(THREADS, ITERATIONS, () -> {
+        System.out.println("LongAdder");
+
+        LongAdder adder = new LongAdder();
+        elapsedTime = run(THREADS, ITERATIONS, () -> {
             adder.increment();
-         });
-         
-      System.out.println(adder.sum());
-      System.out.println(elapsedTime + " seconds");     
+        });
 
-      System.out.println("Unsynchronized");
+        System.out.println(adder.sum());
+        System.out.println(elapsedTime + " seconds");
 
-      long[] badCounter = new long[1];
+        System.out.println("Unsynchronized");
 
-      elapsedTime = run(THREADS, ITERATIONS, () -> {
+        long[] badCounter = new long[1];
+
+        elapsedTime = run(THREADS, ITERATIONS, () -> {
             badCounter[0]++;
-         });
-         
-      System.out.println(badCounter[0]);
-      System.out.println(elapsedTime + " seconds");
-   }
+        });
+
+        System.out.println(badCounter[0]);
+        System.out.println(elapsedTime + " seconds");
+    }
 }

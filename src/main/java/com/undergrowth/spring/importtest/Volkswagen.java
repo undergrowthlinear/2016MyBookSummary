@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
  * @date 2017-09-23-11:43
  */
 @Component
-public class Volkswagen implements Car{
-  public void print(){
-    System.out.println("I am Volkswagen");
-  }
+public class Volkswagen implements Car {
+    public void print() {
+        System.out.println("I am Volkswagen");
+    }
 }

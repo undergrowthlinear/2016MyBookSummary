@@ -14,25 +14,25 @@ import org.junit.Test;
  */
 public class BeforeTest {
 
-  ArrayList empty;
+    ArrayList empty;
 
-  @Before
-  public void initialize() {
-    empty = new ArrayList();
-  }
+    @Before
+    public void initialize() {
+        empty = new ArrayList();
+    }
 
-  @Test
-  public void size() {
-    Assert.assertNotNull(empty);
-  }
+    @Test
+    public void size() {
+        Assert.assertNotNull(empty);
+    }
 
-  @Test
-  public void remove() {
+    @Test
+    public void remove() {
 
-  }
+    }
 
-  @After
-  public void deleteOutputFile() {
+    @After
+    public void deleteOutputFile() {
 
-  }
+    }
 }

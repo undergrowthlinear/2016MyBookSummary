@@ -9,15 +9,15 @@ package com.undergrowth.refactoring;
  */
 public class ChildrenMoivePrice extends MoviePrice {
 
-  @Override
-  public double getPrice(int rentalDay) {
-    // TODO Auto-generated method stub
-    double result = 0;
-    result += 1.5;
-    if (rentalDay > 3) {
-      result += (rentalDay - 3) * 1.5;
+    @Override
+    public double getPrice(int rentalDay) {
+        // TODO Auto-generated method stub
+        double result = 0;
+        result += 1.5;
+        if (rentalDay > 3) {
+            result += (rentalDay - 3) * 1.5;
+        }
+        return result;
     }
-    return result;
-  }
 
 }

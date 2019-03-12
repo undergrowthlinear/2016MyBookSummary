@@ -16,35 +16,35 @@ import java.util.concurrent.Future;
  */
 public class CollectionHelper<T> {
 
-  public static <T> void iteratorResult(List<Future<T>> results) {
-    // TODO Auto-generated method stub
-    for (Future<T> future : results) {
-      try {
-        System.out.println(future.isDone() + "," + future.get());
-      } catch (InterruptedException | ExecutionException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
+    public static <T> void iteratorResult(List<Future<T>> results) {
+        // TODO Auto-generated method stub
+        for (Future<T> future : results) {
+            try {
+                System.out.println(future.isDone() + "," + future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
-  }
 
-  public static <T> List<Future<T>> addCallableCollection(ExecutorService service, int threadNum,
-      final Callable<T> callable) {
-    // TODO Auto-generated method stub
-    List<Future<T>> results = new ArrayList<>();
-    for (int i = 0; i < threadNum; i++) {
-      results.add(service.submit(callable));
+    public static <T> List<Future<T>> addCallableCollection(ExecutorService service, int threadNum,
+        final Callable<T> callable) {
+        // TODO Auto-generated method stub
+        List<Future<T>> results = new ArrayList<>();
+        for (int i = 0; i < threadNum; i++) {
+            results.add(service.submit(callable));
+        }
+        return results;
     }
-    return results;
-  }
 
-  public static <T> Collection<Callable<T>> addCallableCollection(int threadNum,
-      final Callable<T> callable) {
-    // TODO Auto-generated method stub
-    Collection<Callable<T>> tasks = new ArrayList<>();
-    for (int i = 0; i < threadNum; i++) {
-      tasks.add(callable);
+    public static <T> Collection<Callable<T>> addCallableCollection(int threadNum,
+        final Callable<T> callable) {
+        // TODO Auto-generated method stub
+        Collection<Callable<T>> tasks = new ArrayList<>();
+        for (int i = 0; i < threadNum; i++) {
+            tasks.add(callable);
+        }
+        return tasks;
     }
-    return tasks;
-  }
 }

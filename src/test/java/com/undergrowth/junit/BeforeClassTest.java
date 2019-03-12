@@ -15,26 +15,26 @@ import org.junit.Test;
  */
 public class BeforeClassTest {
 
-  private static List array;
+    private static List array;
 
-  @BeforeClass
-  public static void onlyOnce() {
-    array = Lists.newArrayList(1, 2);
-  }
+    @BeforeClass
+    public static void onlyOnce() {
+        array = Lists.newArrayList(1, 2);
+    }
 
-  @Test
-  public void one() {
-    Assert.assertEquals(2, array.size());
-  }
+    @Test
+    public void one() {
+        Assert.assertEquals(2, array.size());
+    }
 
-  @Test
-  public void two() {
+    @Test
+    public void two() {
 
-  }
+    }
 
-  @AfterClass
-  public static void logout() {
+    @AfterClass
+    public static void logout() {
 
-  }
+    }
 
 }

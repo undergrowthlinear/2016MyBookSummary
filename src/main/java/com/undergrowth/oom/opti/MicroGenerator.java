@@ -1,13 +1,14 @@
 package com.undergrowth.oom.opti;
 
 /**
- * MicroGenerator
- * The java.lang.OutOfMemoryError: PermGen space message indicates that the Permanent Generation’s area in memory is exhausted
- * -Xmx200M -XX:MaxPermSize=16M
+ * MicroGenerator The java.lang.OutOfMemoryError: PermGen space message indicates that the Permanent Generation’s area in memory is exhausted -Xmx200M
+ * -XX:MaxPermSize=16M
+ *
  * @author zhangwu
  * @version 1.0.0
  * @date 2018-06-28-16:48
  */
+
 import javassist.ClassPool;
 
 public class MicroGenerator {

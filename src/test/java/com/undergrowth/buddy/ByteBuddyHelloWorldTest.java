@@ -65,7 +65,7 @@ public class ByteBuddyHelloWorldTest {
     }
 
     @Test
-    public void classLoadTest(){
+    public void classLoadTest() {
         Class<?> type = new ByteBuddy()
             .subclass(Object.class)
             .make()

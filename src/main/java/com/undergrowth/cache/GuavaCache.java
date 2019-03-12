@@ -20,7 +20,7 @@ public class GuavaCache {
         new CacheLoader<Integer, Product>() {
             @Override
             public Product load(Integer key) throws Exception {
-                System.out.println("from key:"+key);
+                System.out.println("from key:" + key);
                 return new Product(key, String.valueOf(key) + Math.random());
             }
         });

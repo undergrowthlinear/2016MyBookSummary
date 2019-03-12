@@ -9,10 +9,10 @@ package com.undergrowth.java.concurrency.practice;
 @NotThreadSafeTest
 public class UnsafeSequence {
 
-  private int value = 0;
+    private int value = 0;
 
-  public int getNext() {
-    return value++;
-  }
+    public int getNext() {
+        return value++;
+    }
 
 }

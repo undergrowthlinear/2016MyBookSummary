@@ -17,19 +17,19 @@ import java.util.Random;
  */
 public class GsonDemo {
 
-  public static void main(String[] arsg) {
-    Random randomNumber = new Random();
-    List<Message> messageList = JsonWriterDemo.createMessages(randomNumber);
-    Gson gson = new Gson();
-    Type listType = new TypeToken<List<Message>>() {
-    }.getType();
-    String jsonMessgaelist = gson.toJson(messageList, listType);
-    System.out.println(jsonMessgaelist);
-    List<Message> otherMessageList = gson.fromJson(jsonMessgaelist, listType);
-    for (Message message :
-        otherMessageList) {
-      System.out.println(message);
+    public static void main(String[] arsg) {
+        Random randomNumber = new Random();
+        List<Message> messageList = JsonWriterDemo.createMessages(randomNumber);
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Message>>() {
+        }.getType();
+        String jsonMessgaelist = gson.toJson(messageList, listType);
+        System.out.println(jsonMessgaelist);
+        List<Message> otherMessageList = gson.fromJson(jsonMessgaelist, listType);
+        for (Message message :
+            otherMessageList) {
+            System.out.println(message);
+        }
     }
-  }
 
 }

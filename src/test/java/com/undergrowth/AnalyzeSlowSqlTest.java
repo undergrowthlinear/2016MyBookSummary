@@ -35,7 +35,7 @@ public class AnalyzeSlowSqlTest {
         String splitQueryTime = "# Query_time";
         String colonSep = ":";
         String andSep = "@";
-        Pattern pattern=Pattern.compile("([a-zA-Z_]*:)");
+        Pattern pattern = Pattern.compile("([a-zA-Z_]*:)");
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(slowSqlFile)));
         String tmp = null;
         Boolean isNew = true;

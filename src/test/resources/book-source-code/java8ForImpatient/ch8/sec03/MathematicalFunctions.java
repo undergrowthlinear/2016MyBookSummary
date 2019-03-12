@@ -1,37 +1,37 @@
-import java.util.*;
+import java.util.Random;
 
 public class MathematicalFunctions {
-   public static void main(String[] args) {
-      System.out.println(100000 * 100000);
-      try {
-         System.out.println(Math.multiplyExact(100000, 100000));
-      } catch (ArithmeticException ex) {
-         ex.printStackTrace();
-      }
+    public static void main(String[] args) {
+        System.out.println(100000 * 100000);
+        try {
+            System.out.println(Math.multiplyExact(100000, 100000));
+        } catch (ArithmeticException ex) {
+            ex.printStackTrace();
+        }
 
-      long product = 100000L * 100000L;
-      System.out.println(product);
-      try {
-         int n = Math.toIntExact(product);
-      } catch (ArithmeticException ex) {
-         ex.printStackTrace();
-      }
+        long product = 100000L * 100000L;
+        System.out.println(product);
+        try {
+            int n = Math.toIntExact(product);
+        } catch (ArithmeticException ex) {
+            ex.printStackTrace();
+        }
 
-      System.out.println(Math.floorMod(6 + 10, 12)); // Ten hours later
-      System.out.println(Math.floorMod(6 - 10, 12)); // Ten hours earlier
-      System.out.println(Math.floorMod(6 + 10, -12));
-      System.out.println(Math.floorMod(6 + 10, -12));
+        System.out.println(Math.floorMod(6 + 10, 12)); // Ten hours later
+        System.out.println(Math.floorMod(6 - 10, 12)); // Ten hours earlier
+        System.out.println(Math.floorMod(6 + 10, -12));
+        System.out.println(Math.floorMod(6 + 10, -12));
 
-      Random generator = new Random(164311266871034L); 
-         // Also try new Random(881498)
-      for (int tries = 1; tries < 1000000000; tries++) {
-         double r = 1.0 - generator.nextDouble();
-         if (r == 1.0) {
-            System.out.println("It happened at try " + tries);
-            r = Math.nextDown(r);
-            System.out.println(r);                       
-         }
-      }
+        Random generator = new Random(164311266871034L);
+        // Also try new Random(881498)
+        for (int tries = 1; tries < 1000000000; tries++) {
+            double r = 1.0 - generator.nextDouble();
+            if (r == 1.0) {
+                System.out.println("It happened at try " + tries);
+                r = Math.nextDown(r);
+                System.out.println(r);
+            }
+        }
 
       /*
         Isn't that awesome? After just two tries, we happened to get 
@@ -53,5 +53,5 @@ public class MathematicalFunctions {
         so we need to offer it
            s = prev(prev(prev(0)) ^ m = 164311266871034
       */
-   }
+    }
 }

@@ -6,5 +6,7 @@ package com.undergrowth.buddy.bean;
  * @date 2019-01-11-14:33
  */
 public class Source {
-    public String hello(String name) { return null; }
+    public String hello(String name) {
+        return null;
+    }
 }

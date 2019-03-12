@@ -47,26 +47,26 @@ public class SnowFlakeTest {
         long start = DateUtils.parseDate("2016-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").getTime();
         long addNum = 0;
         Set<Long> idSet = Sets.newHashSet();
-        long timeStart=System.currentTimeMillis();
+        long timeStart = System.currentTimeMillis();
         for (int j = 0; j < 34; j++) {
             for (int i = 0; i < 3030; i++) {
                 addNum = ((addNum + 1) & (~(-1L << 18)));
-                long id = genID(start,addNum);
+                long id = genID(start, addNum);
                 //System.out.println(id);
                 idSet.add(id);
             }
-           // Thread.sleep(1);
+            // Thread.sleep(1);
         }
-        System.out.println(System.currentTimeMillis()-timeStart);
+        System.out.println(System.currentTimeMillis() - timeStart);
         System.out.println(idSet.size());
     }
 
-    private long genID(long start,long addNum) {
+    private long genID(long start, long addNum) {
         long currentMis = System.currentTimeMillis() - start;
         long busCode = 1;
         long macHouse = 1;
         long mac = 1; //(mac << 13) |
-        return (currentMis << 24) | (busCode << 20) | (macHouse << 18) |  (addNum);
+        return (currentMis << 24) | (busCode << 20) | (macHouse << 18) | (addNum);
     }
 
 }

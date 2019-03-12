@@ -6,11 +6,15 @@ var files = new java.util.HashSet()
 var filename = "config"
 var extension = ".properties"
 files.add(filename + extension)
-if (!files.contains("config.properties")) print('Yikes!')
+if (!files.contains("config.properties")) {
+    print('Yikes!')
+}
 files.add(String(filename + extension))
-if (files.contains("config.properties")) print('Yeah!')
+if (files.contains("config.properties")) {
+    print('Yeah!')
+}
 var path = java.nio.file.Paths.get(/home/)
-   // A JavaScript RegExp is converted to a Java String!
+// A JavaScript RegExp is converted to a Java String!
 path
 'Hello'.slice('-2')
 

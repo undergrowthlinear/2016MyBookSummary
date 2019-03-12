@@ -13,16 +13,16 @@ import org.junit.Test;
 public class XSSCheckFilterTest {
 
     @Test
-    public void test(){
-        Assert.assertEquals("核查错误",true,isSafe("http://localhost:8080/helloWorld/hello?name=%27he%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cscript%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27<script%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/script%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Ciframe%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/iframe%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cframe%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/frame%27"));
-        Assert.assertEquals("核查错误",false,isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cset-cookie%27"));
+    public void test() {
+        Assert.assertEquals("核查错误", true, isSafe("http://localhost:8080/helloWorld/hello?name=%27he%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cscript%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27<script%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/script%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Ciframe%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/iframe%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cframe%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3C/frame%27"));
+        Assert.assertEquals("核查错误", false, isSafe("http://localhost:8080/helloWorld/hello?name=%27%3Cset-cookie%27"));
     }
 
     private static boolean isSafe(String str) {

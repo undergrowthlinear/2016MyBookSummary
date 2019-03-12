@@ -7,9 +7,11 @@ package com.undergrowth.jmx;
  * @date 2017-09-10-10:15
  */
 public interface HelloMBean {
-  public String getName();
-  public void setName(String name);
+    public String getName();
 
-  public void printHello();
-  public void printHello(String whoName);
+    public void setName(String name);
+
+    public void printHello();
+
+    public void printHello(String whoName);
 }

@@ -1,19 +1,10 @@
 package com.undergrowth.rxjava;
 
 /**
- * To use RxJava you create Observables (which emit data items),
- * transform those Observables in various ways to get the precise data items that interest you
- * (by using Observable operators), and then observe and react to these sequences of interesting items
- * (by implementing Observers or Subscribers and then subscribing them to the resulting transformed Observables).
+ * To use RxJava you create Observables (which emit data items), transform those Observables in various ways to get the precise data items that
+ * interest you (by using Observable operators), and then observe and react to these sequences of interesting items (by implementing Observers or
+ * Subscribers and then subscribing them to the resulting transformed Observables).
  */
-
-import com.google.common.collect.Lists;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-
-import java.util.List;
 
 public class RxjavaHelloWorld {
 

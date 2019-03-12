@@ -9,4 +9,5 @@ import java.lang.annotation.RetentionPolicy;
  * @date 2019-01-11-14:40
  */
 @Retention(RetentionPolicy.RUNTIME)
-@interface RuntimeDefinition { }
+@interface RuntimeDefinition {
+}

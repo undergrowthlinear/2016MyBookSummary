@@ -14,60 +14,60 @@ import java.util.List;
  */
 public class TypeAll {
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    Integer a = 6;
-    displayType(a.getClass(), Integer.class.toString());
-    List rawList = new ArrayList();
-    displayType(rawList.getClass(), rawList.getClass().toString());
-    List<String> pyList = new ArrayList<>();
-    displayType(pyList.getClass(), pyList.getClass().toString());
-    GereType<String>[] arrayPt = new GereType[10];
-    displayType(arrayPt.getClass(), arrayPt.getClass().toString());
+        Integer a = 6;
+        displayType(a.getClass(), Integer.class.toString());
+        List rawList = new ArrayList();
+        displayType(rawList.getClass(), rawList.getClass().toString());
+        List<String> pyList = new ArrayList<>();
+        displayType(pyList.getClass(), pyList.getClass().toString());
+        GereType<String>[] arrayPt = new GereType[10];
+        displayType(arrayPt.getClass(), arrayPt.getClass().toString());
 
-  }
-
-  class GereType<T> {
-
-    private T t;
-
-    public GereType(T t) {
-      this.t = t;
     }
 
-    public T getT() {
-      return t;
-    }
-  }
+    class GereType<T> {
 
-  public static void displayType(Type t, String prefix) {
-    System.out.println(prefix);
-    System.out.println(t.getTypeName());
-    if (t instanceof Class) {
-      System.out.println("--------Class--------start");
-      Class aClass = ((Class) t);
-      System.out.println(aClass.getTypeName());
-      System.out.println("--------Class--------end");
+        private T t;
+
+        public GereType(T t) {
+            this.t = t;
+        }
+
+        public T getT() {
+            return t;
+        }
     }
-    if (t instanceof ParameterizedType) {
-      System.out.println("--------ParameterizedType--------start");
-      ParameterizedType parameterizedType = ((ParameterizedType) t);
-      System.out.println(
-          parameterizedType.getRawType().getTypeName() + "---->" + parameterizedType.getOwnerType()
-              .getTypeName());
-      Type[] ptArray = parameterizedType.getActualTypeArguments();
-      for (Type tItem :
-          ptArray) {
-        System.out.println(tItem.getTypeName());
-      }
-      System.out.println("--------ParameterizedType--------end");
+
+    public static void displayType(Type t, String prefix) {
+        System.out.println(prefix);
+        System.out.println(t.getTypeName());
+        if (t instanceof Class) {
+            System.out.println("--------Class--------start");
+            Class aClass = ((Class) t);
+            System.out.println(aClass.getTypeName());
+            System.out.println("--------Class--------end");
+        }
+        if (t instanceof ParameterizedType) {
+            System.out.println("--------ParameterizedType--------start");
+            ParameterizedType parameterizedType = ((ParameterizedType) t);
+            System.out.println(
+                parameterizedType.getRawType().getTypeName() + "---->" + parameterizedType.getOwnerType()
+                    .getTypeName());
+            Type[] ptArray = parameterizedType.getActualTypeArguments();
+            for (Type tItem :
+                ptArray) {
+                System.out.println(tItem.getTypeName());
+            }
+            System.out.println("--------ParameterizedType--------end");
+        }
+        if (t instanceof GenericArrayType) {
+            System.out.println("--------GenericArrayType--------start");
+            GenericArrayType genericArrayType = ((GenericArrayType) t);
+            System.out.println(genericArrayType.getGenericComponentType().getTypeName());
+            System.out.println("--------GenericArrayType--------end");
+        }
     }
-    if (t instanceof GenericArrayType) {
-      System.out.println("--------GenericArrayType--------start");
-      GenericArrayType genericArrayType = ((GenericArrayType) t);
-      System.out.println(genericArrayType.getGenericComponentType().getTypeName());
-      System.out.println("--------GenericArrayType--------end");
-    }
-  }
 
 }

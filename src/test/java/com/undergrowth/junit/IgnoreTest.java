@@ -11,9 +11,9 @@ import org.junit.Test;
  */
 public class IgnoreTest {
 
-  @Ignore("not ready yet")
-  @Test
-  public void something() {
-  }
+    @Ignore("not ready yet")
+    @Test
+    public void something() {
+    }
 
 }

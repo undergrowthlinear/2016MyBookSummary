@@ -10,14 +10,22 @@ numbers[0] = 42
 print(numbers[0])
 names[0] = 'Fred'
 
-for each (var elem in numbers) print(elem)
+for each(var elem
+in
+numbers
+)
+print(elem)
 
-for (var i in names) print(i + ": " + names[i])
+for (var i in names) {
+    print(i + ": " + names[i])
+}
 
 names = []
 names[0] = 'Fred'
 names[2] = 'Barney'
-for (var i in names) print(i)
+for (var i in names) {
+    print(i)
+}
 
 java.util.Arrays.toString(names) // Error
 var javaNames = Java.to(names, StringArray)

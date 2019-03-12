@@ -10,7 +10,6 @@ import net.bytebuddy.implementation.FixedValue;
 import org.junit.Test;
 
 /**
- *
  * 属性和方法
  *
  * @author zhangwu

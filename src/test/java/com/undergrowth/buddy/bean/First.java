@@ -6,5 +6,7 @@ package com.undergrowth.buddy.bean;
  * @date 2019-01-11-16:15
  */
 public interface First {
-    default String qux() { return "FOO"; }
+    default String qux() {
+        return "FOO";
+    }
 }

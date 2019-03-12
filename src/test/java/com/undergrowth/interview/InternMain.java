@@ -8,10 +8,10 @@ package com.undergrowth.interview;
  */
 public class InternMain {
 
-  public static void main(String[] args) {
-    String s1 = new String("iop");
-    String s2 = s1 + "jjhhh";
-    System.out.println(s2);
-  }
+    public static void main(String[] args) {
+        String s1 = new String("iop");
+        String s2 = s1 + "jjhhh";
+        System.out.println(s2);
+    }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
  * @date 2017-09-23-11:45
  */
 @Configuration
-@Import({JavaConfigA.class,JavaConfigB.class})
+@Import({JavaConfigA.class, JavaConfigB.class})
 public class ParentConfig {
-  //Any other bean definitions
+    //Any other bean definitions
 }

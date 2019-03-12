@@ -17,37 +17,37 @@ import java.io.IOException;
  */
 public class PointAdapter extends TypeAdapter<Point> {
 
-  public Point read(JsonReader reader) throws IOException {
-    if (reader.peek() == JsonToken.NULL) {
-      reader.nextNull();
-      return null;
+    public Point read(JsonReader reader) throws IOException {
+        if (reader.peek() == JsonToken.NULL) {
+            reader.nextNull();
+            return null;
+        }
+        String xy = reader.nextString();
+        String[] parts = xy.split(",");
+        int x = Integer.parseInt(parts[0]);
+        int y = Integer.parseInt(parts[1]);
+        return new Point(x, y);
     }
-    String xy = reader.nextString();
-    String[] parts = xy.split(",");
-    int x = Integer.parseInt(parts[0]);
-    int y = Integer.parseInt(parts[1]);
-    return new Point(x, y);
-  }
 
-  public void write(JsonWriter writer, Point value) throws IOException {
-    if (value == null) {
-      writer.nullValue();
-      return;
+    public void write(JsonWriter writer, Point value) throws IOException {
+        if (value == null) {
+            writer.nullValue();
+            return;
+        }
+        String xy = value.getX() + "," + value.getY();
+        writer.value(xy);
     }
-    String xy = value.getX() + "," + value.getY();
-    writer.value(xy);
-  }
 
-  public static void main(String[] arsg) {
-    GsonBuilder builder = new GsonBuilder();
-    builder.registerTypeAdapter(Point.class, new PointAdapter());
-    Gson gson = builder.create();
-    Point point = new Point(100, 200);
-    String jsonPoint = gson.toJson(point, Point.class);
-    System.out.println(jsonPoint);
-    Point otherPoint = gson.fromJson(jsonPoint, Point.class);
-    System.out.println(otherPoint);
-    System.out.println(otherPoint.equals(point));
-  }
+    public static void main(String[] arsg) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Point.class, new PointAdapter());
+        Gson gson = builder.create();
+        Point point = new Point(100, 200);
+        String jsonPoint = gson.toJson(point, Point.class);
+        System.out.println(jsonPoint);
+        Point otherPoint = gson.fromJson(jsonPoint, Point.class);
+        System.out.println(otherPoint);
+        System.out.println(otherPoint.equals(point));
+    }
 
 }

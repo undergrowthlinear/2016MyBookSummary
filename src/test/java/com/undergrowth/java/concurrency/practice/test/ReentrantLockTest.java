@@ -22,188 +22,188 @@ import org.junit.Test;
  */
 public class ReentrantLockTest {
 
-  int threadNum = 100;
-  private ExecutorService service = null;
+    int threadNum = 100;
+    private ExecutorService service = null;
 
-  @Before
-  public void Before() {
-    service = Executors.newFixedThreadPool(threadNum);
-  }
-
-  class X {
-
-    private final ReentrantLock lock = new ReentrantLock();
-    // ...
-
-    public void m() {
-      lock.lock(); // block until condition holds
-      try {
-        Thread.currentThread();
-        // ... method body
-        Thread.sleep(1);
-        System.out.println(
-            System.currentTimeMillis() + ",doSomeThing...," + Thread.currentThread().getId() + ","
-                + Thread.currentThread().getName());
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } finally {
-        lock.unlock();
-      }
+    @Before
+    public void Before() {
+        service = Executors.newFixedThreadPool(threadNum);
     }
-  }
 
-  @Test
-  public void xTest() throws InterruptedException, ExecutionException {
-    //预期----所有线程的输出时间都是相差1ms 表示lock确实是互斥锁
-    final X x = new X();
-    Callable<Void> callable = new Callable<Void>() {
+    class X {
 
-      @Override
-      public Void call() throws Exception {
-        x.m();
-        return null;
+        private final ReentrantLock lock = new ReentrantLock();
+        // ...
 
-      }
-    };
-    List<Future<Void>> results = CollectionHelper
-        .addCallableCollection(service, threadNum, callable);
-    CollectionHelper.iteratorResult(results);
-  }
+        public void m() {
+            lock.lock(); // block until condition holds
+            try {
+                Thread.currentThread();
+                // ... method body
+                Thread.sleep(1);
+                System.out.println(
+                    System.currentTimeMillis() + ",doSomeThing...," + Thread.currentThread().getId() + ","
+                        + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
 
-  class Y {
+    @Test
+    public void xTest() throws InterruptedException, ExecutionException {
+        //预期----所有线程的输出时间都是相差1ms 表示lock确实是互斥锁
+        final X x = new X();
+        Callable<Void> callable = new Callable<Void>() {
 
-    final Lock lock = new ReentrantLock();
+            @Override
+            public Void call() throws Exception {
+                x.m();
+                return null;
 
-    public void m() {
-      if (lock.tryLock()) {
-        try {
-          // manipulate protected state
-          System.out.println(
-              "获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
-          //Thread.sleep(1);
-        } /*catch (InterruptedException e) {
+            }
+        };
+        List<Future<Void>> results = CollectionHelper
+            .addCallableCollection(service, threadNum, callable);
+        CollectionHelper.iteratorResult(results);
+    }
+
+    class Y {
+
+        final Lock lock = new ReentrantLock();
+
+        public void m() {
+            if (lock.tryLock()) {
+                try {
+                    // manipulate protected state
+                    System.out.println(
+                        "获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
+                    //Thread.sleep(1);
+                } /*catch (InterruptedException e) {
           // TODO Auto-generated catch block
 					e.printStackTrace();
 				} */ finally {
-          lock.unlock();
+                    lock.unlock();
+                }
+            } else {
+                // perform alternative actions
+                System.out.println(
+                    "没有获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
+            }
         }
-      } else {
-        // perform alternative actions
-        System.out.println(
-            "没有获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
-      }
     }
-  }
-
-  /**
-   * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
-   */
-  @Test
-  public void tryLockTest() {
-    final Y y = new Y();
-    Callable<Void> callable = new Callable<Void>() {
-
-      @Override
-      public Void call() throws Exception {
-        y.m();
-        return null;
-
-      }
-    };
-    List<Future<Void>> results = CollectionHelper
-        .addCallableCollection(service, threadNum, callable);
-    CollectionHelper.iteratorResult(results);
-  }
-
-
-  class Z {
-
-    final Lock lock = new ReentrantLock();
 
     /**
-     * @param timeOut ms
+     * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
      */
-    public void m(int timeOut) throws InterruptedException {
-      if (lock.tryLock(timeOut, TimeUnit.MILLISECONDS)) {
-        try {
-          // manipulate protected state
-          System.out
-              .println("获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread()
-                  .getName());
-        } finally {
-          lock.unlock();
-        }
-      } else {
-        // perform alternative actions
-        System.out.println(
-            timeOut + "ms后没有获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread()
-                .getName());
-      }
+    @Test
+    public void tryLockTest() {
+        final Y y = new Y();
+        Callable<Void> callable = new Callable<Void>() {
 
+            @Override
+            public Void call() throws Exception {
+                y.m();
+                return null;
+
+            }
+        };
+        List<Future<Void>> results = CollectionHelper
+            .addCallableCollection(service, threadNum, callable);
+        CollectionHelper.iteratorResult(results);
     }
-  }
 
-  /**
-   * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
-   */
-  @Test
-  public void tryLockTimeOutTest() {
-    final Z z = new Z();
-    final Random random = new Random();
-    Callable<Void> callable = new Callable<Void>() {
 
-      @Override
-      public Void call() throws Exception {
-        z.m(random.nextInt(100));
-        return null;
+    class Z {
 
-      }
-    };
-    List<Future<Void>> results = CollectionHelper
-        .addCallableCollection(service, threadNum, callable);
-    CollectionHelper.iteratorResult(results);
-  }
+        final Lock lock = new ReentrantLock();
 
-  class LockInterrupt {
+        /**
+         * @param timeOut ms
+         */
+        public void m(int timeOut) throws InterruptedException {
+            if (lock.tryLock(timeOut, TimeUnit.MILLISECONDS)) {
+                try {
+                    // manipulate protected state
+                    System.out
+                        .println("获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread()
+                            .getName());
+                } finally {
+                    lock.unlock();
+                }
+            } else {
+                // perform alternative actions
+                System.out.println(
+                    timeOut + "ms后没有获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread()
+                        .getName());
+            }
 
-    final Lock lock = new ReentrantLock();
+        }
+    }
 
     /**
-     * @param timeOut ms
+     * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
      */
-    public void m() throws InterruptedException {
-      lock.lockInterruptibly();
-      try {
-        // manipulate protected state
-        System.out.println(
-            "获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
-        Thread.currentThread().interrupt();
-      } finally {
-        lock.unlock();
-      }
+    @Test
+    public void tryLockTimeOutTest() {
+        final Z z = new Z();
+        final Random random = new Random();
+        Callable<Void> callable = new Callable<Void>() {
+
+            @Override
+            public Void call() throws Exception {
+                z.m(random.nextInt(100));
+                return null;
+
+            }
+        };
+        List<Future<Void>> results = CollectionHelper
+            .addCallableCollection(service, threadNum, callable);
+        CollectionHelper.iteratorResult(results);
     }
 
-  }
+    class LockInterrupt {
 
-  /**
-   * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
-   */
-  @Test
-  public void lockInterruptTest() {
-    final LockInterrupt lockInterrupt = new LockInterrupt();
-    Callable<Void> callable = new Callable<Void>() {
+        final Lock lock = new ReentrantLock();
 
-      @Override
-      public Void call() throws Exception {
-        lockInterrupt.m();
-        return null;
+        /**
+         * @param timeOut ms
+         */
+        public void m() throws InterruptedException {
+            lock.lockInterruptibly();
+            try {
+                // manipulate protected state
+                System.out.println(
+                    "获取到锁," + Thread.currentThread().getId() + "," + Thread.currentThread().getName());
+                Thread.currentThread().interrupt();
+            } finally {
+                lock.unlock();
+            }
+        }
 
-      }
-    };
-    List<Future<Void>> results = CollectionHelper
-        .addCallableCollection(service, threadNum, callable);
-    CollectionHelper.iteratorResult(results);
+    }
 
-  }
+    /**
+     * 预期----当threadNum个线程执行时 有的线程获取到锁 有的线程无法获取到锁
+     */
+    @Test
+    public void lockInterruptTest() {
+        final LockInterrupt lockInterrupt = new LockInterrupt();
+        Callable<Void> callable = new Callable<Void>() {
+
+            @Override
+            public Void call() throws Exception {
+                lockInterrupt.m();
+                return null;
+
+            }
+        };
+        List<Future<Void>> results = CollectionHelper
+            .addCallableCollection(service, threadNum, callable);
+        CollectionHelper.iteratorResult(results);
+
+    }
 }

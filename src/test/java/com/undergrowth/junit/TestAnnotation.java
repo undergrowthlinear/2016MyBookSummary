@@ -11,21 +11,21 @@ import org.junit.Test;
  */
 public class TestAnnotation {
 
-  @Test
-  public void method() {
-    org.junit.Assert.assertTrue(new ArrayList().isEmpty());
-  }
-
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void outOfBounds() {
-    new ArrayList<Object>().get(1);
-  }
-
-  @Test(timeout = 100)
-  public void infinity() {
-    while (true) {
-      ;
+    @Test
+    public void method() {
+        org.junit.Assert.assertTrue(new ArrayList().isEmpty());
     }
-  }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void outOfBounds() {
+        new ArrayList<Object>().get(1);
+    }
+
+    @Test(timeout = 100)
+    public void infinity() {
+        while (true) {
+            ;
+        }
+    }
 
 }

@@ -7,5 +7,5 @@ package com.undergrowth.spring.importtest;
  * @date 2017-09-23-11:41
  */
 public interface Car {
-  public void print();
+    public void print();
 }

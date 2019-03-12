@@ -26,9 +26,7 @@ public class RedefineTest {
     }
 
     /**
-     * com.undergrowth.buddy.RedefineTest$Foo	foo
-     bar
-     m	java.lang.String com.undergrowth.buddy.RedefineTest$Foo.m()
+     * com.undergrowth.buddy.RedefineTest$Foo	foo bar m	java.lang.String com.undergrowth.buddy.RedefineTest$Foo.m()
      */
     @Test
     public void redefineTest() {
@@ -48,9 +46,7 @@ public class RedefineTest {
     }
 
     /**
-     * com.undergrowth.buddy.RedefineTest$Foo	foo
-     bar
-     m	java.lang.String com.undergrowth.buddy.RedefineTest$Foo.m()
+     * com.undergrowth.buddy.RedefineTest$Foo	foo bar m	java.lang.String com.undergrowth.buddy.RedefineTest$Foo.m()
      */
     @Test
     public void rebaseTest() {

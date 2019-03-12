@@ -1,6 +1,5 @@
 package com.undergrowth.zookeeper.paxos;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.BrokenBarrierException;

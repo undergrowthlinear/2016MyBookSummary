@@ -15,32 +15,32 @@ import java.io.IOException;
  */
 public class UserJsonAdapter extends TypeAdapter<UserInfo> {
 
-  @Override
-  public void write(JsonWriter out, UserInfo user) throws IOException {
-    // implement write: combine firstName and lastName into name
-    out.beginObject();
-    out.name("name");
-    out.value(user.firstName + " " + user.lastName);
-    out.endObject();
-    // implement the write method
-  }
+    @Override
+    public void write(JsonWriter out, UserInfo user) throws IOException {
+        // implement write: combine firstName and lastName into name
+        out.beginObject();
+        out.name("name");
+        out.value(user.firstName + " " + user.lastName);
+        out.endObject();
+        // implement the write method
+    }
 
-  @Override
-  public UserInfo read(JsonReader in) throws IOException {
-    // implement read: split name into firstName and lastName
-    in.beginObject();
-    in.nextName();
-    String[] nameParts = in.nextString().split(" ");
-    in.endObject();
-    return new UserInfo(nameParts[0], nameParts[1]);
-  }
+    @Override
+    public UserInfo read(JsonReader in) throws IOException {
+        // implement read: split name into firstName and lastName
+        in.beginObject();
+        in.nextName();
+        String[] nameParts = in.nextString().split(" ");
+        in.endObject();
+        return new UserInfo(nameParts[0], nameParts[1]);
+    }
 
-  public static void main(String[] arsg) {
-    Gson gson = new Gson();
-    UserInfo userInfo = new UserInfo("under", "last");
-    String jsonUserInfo = gson.toJson(userInfo, UserInfo.class);
-    System.out.println(jsonUserInfo);
-    UserInfo otherUser = gson.fromJson(jsonUserInfo, UserInfo.class);
-    System.out.println(otherUser.equals(userInfo));
-  }
+    public static void main(String[] arsg) {
+        Gson gson = new Gson();
+        UserInfo userInfo = new UserInfo("under", "last");
+        String jsonUserInfo = gson.toJson(userInfo, UserInfo.class);
+        System.out.println(jsonUserInfo);
+        UserInfo otherUser = gson.fromJson(jsonUserInfo, UserInfo.class);
+        System.out.println(otherUser.equals(userInfo));
+    }
 }

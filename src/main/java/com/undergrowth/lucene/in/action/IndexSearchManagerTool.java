@@ -8,20 +8,20 @@ package com.undergrowth.lucene.in.action;
  */
 public class IndexSearchManagerTool {
 
-  private LuceneNRTManager nrtManagerFileTool;
-  private LuceneSearcherManager searcherManagerFileTool;
+    private LuceneNRTManager nrtManagerFileTool;
+    private LuceneSearcherManager searcherManagerFileTool;
 
-  public IndexSearchManagerTool(String indexPath) {
-    nrtManagerFileTool = new LuceneNRTManager(indexPath);
-    searcherManagerFileTool = new LuceneSearcherManager(nrtManagerFileTool.getSearcherManager());
-  }
+    public IndexSearchManagerTool(String indexPath) {
+        nrtManagerFileTool = new LuceneNRTManager(indexPath);
+        searcherManagerFileTool = new LuceneSearcherManager(nrtManagerFileTool.getSearcherManager());
+    }
 
-  public LuceneNRTManager getNrtManagerFileTool() {
-    return nrtManagerFileTool;
-  }
+    public LuceneNRTManager getNrtManagerFileTool() {
+        return nrtManagerFileTool;
+    }
 
-  public LuceneSearcherManager getSearcherManagerFileTool() {
-    return searcherManagerFileTool;
-  }
+    public LuceneSearcherManager getSearcherManagerFileTool() {
+        return searcherManagerFileTool;
+    }
 
 }

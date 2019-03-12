@@ -8,21 +8,21 @@ package com.undergrowth.refactoring;
  * @date 2016年7月8日
  */
 public enum ShowType {
-  TXT(1), HTML(2);
+    TXT(1), HTML(2);
 
-  private int typeCode;
+    private int typeCode;
 
-  ShowType(int typeCode) {
-    this.typeCode = typeCode;
-  }
-
-  public ShowType getValueOf(String showType) {
-    if ("txt".equals(showType)) {
-      return TXT;
-    } else if ("html".equals(showType)) {
-      return HTML;
+    ShowType(int typeCode) {
+        this.typeCode = typeCode;
     }
-    return null;
-  }
+
+    public ShowType getValueOf(String showType) {
+        if ("txt".equals(showType)) {
+            return TXT;
+        } else if ("html".equals(showType)) {
+            return HTML;
+        }
+        return null;
+    }
 
 }

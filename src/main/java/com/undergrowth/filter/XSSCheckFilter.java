@@ -11,7 +11,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
 
 /**
  * XSSCheckFilter
@@ -20,9 +19,10 @@ import org.springframework.stereotype.Component;
  * @version 1.0.0
  * @date 2018-08-31-14:36
  */
+
 /**
  * http://localhost:8080/helloWorld/hello?name=%27he%27
- * **/
+ **/
 //@Component
 public class XSSCheckFilter implements Filter {
     private FilterConfig config;
@@ -81,7 +81,7 @@ public class XSSCheckFilter implements Filter {
 
         if (!isSafe) {
             request.setAttribute("err", "您输入的参数有非法字符，请输入正确的参数！");
-        //    request.getRequestDispatcher(errorPath).forward(request, response);
+            //    request.getRequestDispatcher(errorPath).forward(request, response);
             return;
         }
         filterChain.doFilter(req, resp);

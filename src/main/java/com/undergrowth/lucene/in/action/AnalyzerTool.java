@@ -19,27 +19,27 @@ import org.slf4j.LoggerFactory;
  */
 public class AnalyzerTool {
 
-  private Logger logger = LoggerFactory.getLogger(AnalyzerTool.class);
+    private Logger logger = LoggerFactory.getLogger(AnalyzerTool.class);
 
-  public void disTokenStreamInfo(String text, Analyzer analyzer) {
-    try {
-      TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(text));
-      logger.info("text:" + text + "\t" + "analyzer:" + analyzer.toString());
-      while (tokenStream.incrementToken()) {
-        // 碗模型
-        CharTermAttribute cta = tokenStream.addAttribute(CharTermAttribute.class);
-        OffsetAttribute oa = tokenStream.addAttribute(OffsetAttribute.class);
-        PositionIncrementAttribute pia = tokenStream.addAttribute(PositionIncrementAttribute.class);
-        TypeAttribute ta = tokenStream.addAttribute(TypeAttribute.class);
-        logger.info(
-            pia.getPositionIncrement() + ":" + cta + "[" + oa.startOffset() + "-" + oa.endOffset()
-                + "]"
-                + ":" + ta.type());
-      }
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      logger.error(e.toString());
+    public void disTokenStreamInfo(String text, Analyzer analyzer) {
+        try {
+            TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(text));
+            logger.info("text:" + text + "\t" + "analyzer:" + analyzer.toString());
+            while (tokenStream.incrementToken()) {
+                // 碗模型
+                CharTermAttribute cta = tokenStream.addAttribute(CharTermAttribute.class);
+                OffsetAttribute oa = tokenStream.addAttribute(OffsetAttribute.class);
+                PositionIncrementAttribute pia = tokenStream.addAttribute(PositionIncrementAttribute.class);
+                TypeAttribute ta = tokenStream.addAttribute(TypeAttribute.class);
+                logger.info(
+                    pia.getPositionIncrement() + ":" + cta + "[" + oa.startOffset() + "-" + oa.endOffset()
+                        + "]"
+                        + ":" + ta.type());
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            logger.error(e.toString());
+        }
     }
-  }
 
 }

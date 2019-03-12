@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SpringBootHelloWorld {
 
-  @RequestMapping(value = "/hello")
-  @ResponseBody
-  public String helloWorld(@RequestParam String name) {
-    return SpringBootHelloWorld.class.getSimpleName() + "-" + System.currentTimeMillis() + "-欢迎"
-        + name;
-  }
+    @RequestMapping(value = "/hello")
+    @ResponseBody
+    public String helloWorld(@RequestParam String name) {
+        return SpringBootHelloWorld.class.getSimpleName() + "-" + System.currentTimeMillis() + "-欢迎"
+            + name;
+    }
 
 }

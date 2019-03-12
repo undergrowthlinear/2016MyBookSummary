@@ -16,6 +16,7 @@ public class LogInvocationHandler implements InvocationHandler {
     private static Logger log = LoggerFactory.getLogger(LogInvocationHandler.class);
 
     private Hello hello;
+
     public LogInvocationHandler(Hello hello) {
         this.hello = hello;
     }

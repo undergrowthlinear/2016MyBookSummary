@@ -34,7 +34,7 @@ public class HandlerExecutionChainWrapper extends HandlerExecutionChain {
     public HandlerExecutionChainWrapper(HandlerExecutionChain chain,
         HttpServletRequest request,
         BeanFactory beanFactory) {
-        super(chain.getHandler(),chain.getInterceptors());
+        super(chain.getHandler(), chain.getInterceptors());
         this.request = request;
         this.beanFactory = beanFactory;
     }
@@ -49,19 +49,16 @@ public class HandlerExecutionChainWrapper extends HandlerExecutionChain {
             if (handlerWrapper != null) {
                 return handlerWrapper;
             }
-            HandlerMethod superMethodHandler = (HandlerMethod)super.getHandler();
+            HandlerMethod superMethodHandler = (HandlerMethod) super.getHandler();
             Object proxyBean = createProxyBean(superMethodHandler);
-            handlerWrapper = new HandlerMethod(proxyBean,superMethodHandler.getMethod());
+            handlerWrapper = new HandlerMethod(proxyBean, superMethodHandler.getMethod());
             return handlerWrapper;
         }
 
     }
 
     /**
-     * 为Controller Bean创建一个代理实例,以便用于 实现调用真实Controller Bean前的切面拦截
-     * 用以过滤方法参数中可能的XSS注入
-     * @param handler
-     * @return
+     * 为Controller Bean创建一个代理实例,以便用于 实现调用真实Controller Bean前的切面拦截 用以过滤方法参数中可能的XSS注入
      */
     private Object createProxyBean(HandlerMethod handler) {
         try {
@@ -69,14 +66,14 @@ public class HandlerExecutionChainWrapper extends HandlerExecutionChain {
             enhancer.setSuperclass(handler.getBeanType());
             Object bean = handler.getBean();
             if (bean instanceof String) {
-                bean = beanFactory.getBean((String)bean);
+                bean = beanFactory.getBean((String) bean);
             }
             ControllerXssInterceptor xss = new ControllerXssInterceptor(bean);
             xss.setRequest(this.request);
             enhancer.setCallback(xss);
             return enhancer.create();
-        }catch(Exception e) {
-            throw new IllegalStateException("为Controller创建代理失败:"+e.getMessage(), e);
+        } catch (Exception e) {
+            throw new IllegalStateException("为Controller创建代理失败:" + e.getMessage(), e);
         }
     }
 
@@ -106,16 +103,17 @@ public class HandlerExecutionChainWrapper extends HandlerExecutionChain {
             //对Controller的方法参数进行调用前处理
             //过滤String类型参数中可能存在的XSS注入
             if (args != null) {
-                for (int i=0;i<args.length;i++) {
-                    if (args[i]==null)
-                        continue;
-
-                    if (args[i] instanceof String) {
-                        args[i] = stringXssReplace((String)args[i]);
+                for (int i = 0; i < args.length; i++) {
+                    if (args[i] == null) {
                         continue;
                     }
 
-                    for(String pk:objectMatchPackages) {
+                    if (args[i] instanceof String) {
+                        args[i] = stringXssReplace((String) args[i]);
+                        continue;
+                    }
+
+                    for (String pk : objectMatchPackages) {
                         if (args[i].getClass().getName().startsWith(pk)) {
                             objectXssReplace(args[i]);
                             break;
@@ -131,28 +129,29 @@ public class HandlerExecutionChainWrapper extends HandlerExecutionChain {
         }
 
         private void objectXssReplace(final Object argument) {
-            if (argument == null)
+            if (argument == null) {
                 return;
+            }
 
-            ReflectionUtils.doWithFields(argument.getClass(), new FieldCallback(){
+            ReflectionUtils.doWithFields(argument.getClass(), new FieldCallback() {
 
                 @Override
                 public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
                     ReflectionUtils.makeAccessible(field);
-                    String fv = (String)field.get(argument);
+                    String fv = (String) field.get(argument);
                     if (fv != null) {
                         String nv = HtmlUtils.htmlEscape(fv);
                         field.set(argument, nv);
                     }
                 }
 
-            }, new FieldFilter(){
+            }, new FieldFilter() {
 
                 @Override
                 public boolean matches(Field field) {
                     boolean typeMatch = String.class.equals(field.getType());
 
-                    if (request!=null && "GET".equals(request.getMethod())) {
+                    if (request != null && "GET".equals(request.getMethod())) {
                         boolean requMatch = request.getParameterMap().containsKey(field.getName());
                         return typeMatch && requMatch;
                     }

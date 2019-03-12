@@ -9,12 +9,12 @@ package com.undergrowth.refactoring;
  */
 public abstract class MoviePrice {
 
-  public abstract double getPrice(int rentalDay);
+    public abstract double getPrice(int rentalDay);
 
-  public int getFrequencyRental(int rentalDay) {
-    if (this instanceof NewReleaseMoviePrice && rentalDay > 1) {
-      return 2;
+    public int getFrequencyRental(int rentalDay) {
+        if (this instanceof NewReleaseMoviePrice && rentalDay > 1) {
+            return 2;
+        }
+        return 1;
     }
-    return 1;
-  }
 }

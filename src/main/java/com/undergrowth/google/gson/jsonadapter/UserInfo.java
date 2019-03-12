@@ -12,36 +12,36 @@ import com.google.gson.annotations.JsonAdapter;
 @JsonAdapter(UserJsonAdapter.class)
 public class UserInfo {
 
-  public String firstName;
-  public String lastName;
+    public String firstName;
+    public String lastName;
 
-  public UserInfo(String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof UserInfo)) {
-      return false;
+    public UserInfo(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    UserInfo userInfo = (UserInfo) o;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserInfo)) {
+            return false;
+        }
 
-    if (!firstName.equals(userInfo.firstName)) {
-      return false;
+        UserInfo userInfo = (UserInfo) o;
+
+        if (!firstName.equals(userInfo.firstName)) {
+            return false;
+        }
+        return lastName.equals(userInfo.lastName);
+
     }
-    return lastName.equals(userInfo.lastName);
 
-  }
-
-  @Override
-  public int hashCode() {
-    int result = firstName.hashCode();
-    result = 31 * result + lastName.hashCode();
-    return result;
-  }
+    @Override
+    public int hashCode() {
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        return result;
+    }
 }

@@ -49,7 +49,8 @@ public class AnnotationTest {
             .intercept(SuperMethodCall.INSTANCE)
             .annotateMethod(new RuntimeDefinitionImpl())
             .defineField("foo", Object.class)
-            .annotateField(new RuntimeDefinitionImpl()).make().saveIn(new File("E:\\code\\github\\2016MyBookSummary\\src\\test\\java\\com\\undergrowth\\buddy"));
+            .annotateField(new RuntimeDefinitionImpl()).make()
+            .saveIn(new File("E:\\code\\github\\2016MyBookSummary\\src\\test\\java\\com\\undergrowth\\buddy"));
     }
 
 }

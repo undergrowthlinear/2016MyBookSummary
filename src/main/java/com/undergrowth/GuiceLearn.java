@@ -2,7 +2,6 @@ package com.undergrowth;
 
 /**
  * The injector's job is to assemble graphs of objects.
- *
  */
 
 import com.google.inject.AbstractModule;
@@ -38,7 +37,7 @@ public class GuiceLearn {
 
         @Inject
         BillingService(CreditCardProcessor processor,
-                       TransactionLog transactionLog) {
+            TransactionLog transactionLog) {
             this.processor = processor;
             this.transactionLog = transactionLog;
         }
@@ -104,7 +103,7 @@ public class GuiceLearn {
         void log(String msg);
     }
 
-   static class DatabaseTransactionLog implements TransactionLog {
+    static class DatabaseTransactionLog implements TransactionLog {
 
         @Override
         public void log(String msg) {
