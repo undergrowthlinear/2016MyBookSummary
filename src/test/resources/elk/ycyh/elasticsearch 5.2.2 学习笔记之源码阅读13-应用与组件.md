@@ -220,7 +220,6 @@
 ## 通用平台
 ![elk](./elk.png)
 ## 公司内部elk与hadoop
-- ![inner_elk_hadoop](./ycyh_elk_hadoop.png)
 ## elasticsearch 架构
 ![es](./es.png)
 ### elasticsearch学习三重境
